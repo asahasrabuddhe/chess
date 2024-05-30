@@ -183,9 +183,7 @@ func TestQueen_Moves(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			q := &Queen{
-				position: tt.fields.position,
-			}
+			q := NewQueen(tt.fields.position.String())
 			if got := q.Moves(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Moves() = %v, want %v", got, tt.want)
 			}
