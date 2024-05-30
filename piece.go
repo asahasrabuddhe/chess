@@ -75,3 +75,63 @@ func (k *King) Moves() []string {
 	return moves
 }
 
+type Queen struct {
+	position Position
+}
+
+func NewQueen(position string) *Queen {
+	return &Queen{position: ParsePosition(position)}
+}
+
+func (q *Queen) Moves() []string {
+	var moves []string
+	// move forward across the board
+	for i := 1; i <= q.position.Row; i++ {
+		newPos := Position{Row: q.position.Row - i, Col: q.position.Col}
+		moves = append(moves, newPos.String())
+	}
+	// move backward across the board
+	for i := 1; i <= 7-q.position.Row; i++ {
+		newPos := Position{Row: q.position.Row + i, Col: q.position.Col}
+		moves = append(moves, newPos.String())
+	}
+	// move to the left across the board
+	for i := 1; i <= q.position.Col; i++ {
+		newPos := Position{Row: q.position.Row, Col: q.position.Col - i}
+		moves = append(moves, newPos.String())
+	}
+	// move to the right across the board
+	for i := 1; i <= 7-q.position.Col; i++ {
+		newPos := Position{Row: q.position.Row, Col: q.position.Col + i}
+		moves = append(moves, newPos.String())
+	}
+	// move diagonally forward to the left
+	for i := 1; i <= q.position.Row && i <= q.position.Col; i++ {
+		//if q.position.Row+1 <= 7 && q.position.Col-1 >= 0 {
+		newPos := Position{Row: q.position.Row - i, Col: q.position.Col - i}
+		moves = append(moves, newPos.String())
+		//}
+	}
+	// move diagonally forward to the right
+	for i := 1; i <= q.position.Row && i <= 7-q.position.Col; i++ {
+		//if q.position.Row+1 <= 7 && q.position.Col+1 <= 7 {
+		newPos := Position{Row: q.position.Row - i, Col: q.position.Col + i}
+		moves = append(moves, newPos.String())
+		//}
+	}
+	// move diagonally backward to the left
+	for i := 1; i <= 7-q.position.Row && i <= q.position.Col; i++ {
+		//if q.position.Row-1 >= 0 && q.position.Col-1 >= 0 {
+		newPos := Position{Row: q.position.Row + i, Col: q.position.Col - i}
+		moves = append(moves, newPos.String())
+		//}
+	}
+	// move diagonally backward to the right
+	for i := 1; i <= 7-q.position.Row && i <= 7-q.position.Col; i++ {
+		//if q.position.Row-1 >= 0 && q.position.Col+1 <= 7 {
+		newPos := Position{Row: q.position.Row + i, Col: q.position.Col + i}
+		moves = append(moves, newPos.String())
+		//}
+	}
+	return moves
+}
