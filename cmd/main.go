@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"slices"
 	"strings"
 )
 
@@ -45,6 +44,5 @@ func main() {
 	}
 
 	moves := piece.Moves()
-	slices.Sort(moves)
 	fmt.Println("Possible moves:", strings.Join(moves, ", "))
 }
