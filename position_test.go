@@ -43,3 +43,47 @@ func TestParsePosition(t *testing.T) {
 		})
 	}
 }
+
+func TestPosition_String(t *testing.T) {
+	type fields struct {
+		Row int
+		Col int
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   string
+	}{
+		{
+			name:   "A8",
+			fields: fields{Row: 0, Col: 0},
+			want:   "A8",
+		},
+		{
+			name:   "H1",
+			fields: fields{Row: 7, Col: 7},
+			want:   "H1",
+		},
+		{
+			name:   "E4",
+			fields: fields{Row: 4, Col: 4},
+			want:   "E4",
+		},
+		{
+			name:   "D7",
+			fields: fields{Row: 1, Col: 3},
+			want:   "D7",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := Position{
+				Row: tt.fields.Row,
+				Col: tt.fields.Col,
+			}
+			if got := p.String(); got != tt.want {
+				t.Errorf("String() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

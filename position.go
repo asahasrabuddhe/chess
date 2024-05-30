@@ -1,5 +1,7 @@
 package chess
 
+import "fmt"
+
 type Position struct {
 	Row int
 	Col int
@@ -13,5 +15,5 @@ func ParsePosition(position string) Position {
 }
 
 func (p Position) String() string {
-	return ""
+	return string(rune('A'+p.Col)) + fmt.Sprint(8-p.Row)
 }
