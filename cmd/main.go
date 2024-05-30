@@ -18,16 +18,28 @@ func main() {
 		os.Exit(1)
 	}
 
-	var piece chess.Piece
+	var (
+		piece chess.Piece
+		err   error
+	)
 	pieceType, position := strings.ToLower(os.Args[1]), strings.ToUpper(os.Args[2])
 
 	switch pieceType {
 	case "pawn":
-		piece = chess.NewPawn(position)
+		piece, err = chess.NewPawn(position)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	case "king":
-		piece = chess.NewKing(position)
+		piece, err = chess.NewKing(position)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	case "queen":
-		piece = chess.NewQueen(position)
+		piece, err = chess.NewQueen(position)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	default:
 		log.Fatalln("Invalid piece type")
 	}
