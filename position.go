@@ -6,7 +6,10 @@ type Position struct {
 }
 
 func ParsePosition(position string) Position {
-	return Position{}
+	return Position{
+		Row: int('8' - position[1]),
+		Col: int(position[0] - 'A'),
+	}
 }
 
 func (p Position) String() string {
