@@ -10,9 +10,10 @@ func TestParsePosition(t *testing.T) {
 		position string
 	}
 	tests := []struct {
-		name string
-		args args
-		want Position
+		name    string
+		args    args
+		want    Position
+		wantErr bool
 	}{
 		{
 			name: "A8",
@@ -34,10 +35,33 @@ func TestParsePosition(t *testing.T) {
 			args: args{position: "D7"},
 			want: Position{Row: 1, Col: 3},
 		},
+		{
+			name:    "A9",
+			args:    args{position: "A9"},
+			want:    Position{},
+			wantErr: true,
+		},
+		{
+			name:    "I2",
+			args:    args{position: "I2"},
+			want:    Position{},
+			wantErr: true,
+		},
+		{
+			name:    "AC21",
+			args:    args{position: "AC21"},
+			want:    Position{},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := ParsePosition(tt.args.position); !reflect.DeepEqual(got, tt.want) {
+			got, err := ParsePosition(tt.args.position)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ParsePosition() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ParsePosition() = %v, want %v", got, tt.want)
 			}
 		})

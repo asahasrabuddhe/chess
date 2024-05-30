@@ -8,8 +8,12 @@ type Pawn struct {
 	position Position
 }
 
-func NewPawn(position string) *Pawn {
-	return &Pawn{position: ParsePosition(position)}
+func NewPawn(position string) (*Pawn, error) {
+	pos, err := ParsePosition(position)
+	if err != nil {
+		return nil, err
+	}
+	return &Pawn{position: pos}, nil
 }
 
 func (p *Pawn) Moves() []string {
@@ -26,8 +30,12 @@ type King struct {
 	position Position
 }
 
-func NewKing(position string) *King {
-	return &King{position: ParsePosition(position)}
+func NewKing(position string) (*King, error) {
+	pos, err := ParsePosition(position)
+	if err != nil {
+		return nil, err
+	}
+	return &King{position: pos}, nil
 }
 
 func (k *King) Moves() []string {
@@ -79,8 +87,12 @@ type Queen struct {
 	position Position
 }
 
-func NewQueen(position string) *Queen {
-	return &Queen{position: ParsePosition(position)}
+func NewQueen(position string) (*Queen, error) {
+	pos, err := ParsePosition(position)
+	if err != nil {
+		return nil, err
+	}
+	return &Queen{position: pos}, nil
 }
 
 func (q *Queen) Moves() []string {
