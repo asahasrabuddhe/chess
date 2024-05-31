@@ -259,3 +259,14 @@ func TestQueen_Moves(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkQueen_Moves(b *testing.B) {
+	var moves []string
+
+	queen, _ := NewQueen("D5")
+	for i := 0; i < b.N; i++ {
+		moves = queen.Moves()
+	}
+
+	_, _ = fmt.Fprintln(io.Discard, moves)
+}
