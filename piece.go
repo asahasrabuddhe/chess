@@ -39,7 +39,8 @@ func NewKing(position string) (*King, error) {
 }
 
 func (k *King) Moves() []string {
-	var moves []string
+	// a king can possibly move 1 step in 8 directions.
+	var moves = make([]string, 0, 8)
 	// move one step forward
 	if k.position.Row-1 >= 0 {
 		newPos := Position{Row: k.position.Row - 1, Col: k.position.Col}
