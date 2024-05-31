@@ -145,31 +145,23 @@ func (q *Queen) Moves() []string {
 	}
 	// move diagonally forward to the left across the board
 	for i := 1; i <= q.position.Row && i <= q.position.Col; i++ {
-		//if q.position.Row+1 <= 7 && q.position.Col-1 >= 0 {
 		newPos := Position{Row: q.position.Row - i, Col: q.position.Col - i}
 		moves = append(moves, newPos.String())
-		//}
 	}
 	// move diagonally forward to the right across the board
 	for i := 1; i <= q.position.Row && i <= 7-q.position.Col; i++ {
-		//if q.position.Row+1 <= 7 && q.position.Col+1 <= 7 {
 		newPos := Position{Row: q.position.Row - i, Col: q.position.Col + i}
 		moves = append(moves, newPos.String())
-		//}
 	}
 	// move diagonally backward to the left across the board
 	for i := 1; i <= 7-q.position.Row && i <= q.position.Col; i++ {
-		//if q.position.Row-1 >= 0 && q.position.Col-1 >= 0 {
 		newPos := Position{Row: q.position.Row + i, Col: q.position.Col - i}
 		moves = append(moves, newPos.String())
-		//}
 	}
 	// move diagonally backward to the right across the board
 	for i := 1; i <= 7-q.position.Row && i <= 7-q.position.Col; i++ {
-		//if q.position.Row-1 >= 0 && q.position.Col+1 <= 7 {
 		newPos := Position{Row: q.position.Row + i, Col: q.position.Col + i}
 		moves = append(moves, newPos.String())
-		//}
 	}
 	return moves
 }
