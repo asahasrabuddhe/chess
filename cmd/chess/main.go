@@ -22,6 +22,7 @@ func main() {
 
 	var (
 		piece chess.Piece
+		b     chess.Board
 		err   error
 	)
 	inputs := strings.Split(os.Args[1], ", ")
@@ -29,24 +30,24 @@ func main() {
 
 	switch pieceType {
 	case "pawn":
-		piece, err = chess.NewPawn(position)
+		piece, err = chess.NewPawn(position, chess.White)
 		if err != nil {
 			log.Fatalln(err)
 		}
-	case "king":
-		piece, err = chess.NewKing(position)
-		if err != nil {
-			log.Fatalln(err)
-		}
-	case "queen":
-		piece, err = chess.NewQueen(position)
-		if err != nil {
-			log.Fatalln(err)
-		}
+	//case "king":
+	//	piece, err = chess.NewKing(position)
+	//	if err != nil {
+	//		log.Fatalln(err)
+	//	}
+	//case "queen":
+	//	piece, err = chess.NewQueen(position)
+	//	if err != nil {
+	//		log.Fatalln(err)
+	//	}
 	default:
 		log.Fatalln("Invalid piece type")
 	}
 
-	moves := piece.Moves()
+	moves := piece.PossiblePositions(b)
 	fmt.Println("Possible moves:", strings.Join(moves, ", "))
 }
