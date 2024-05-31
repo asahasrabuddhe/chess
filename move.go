@@ -2,157 +2,204 @@ package chess
 
 type MoveFunc func(Position, Color, Board) Position
 
-func MoveForward(position Position, color Color, board Board) Position {
-	newPosition := position
-	if color == White {
-		if position.Rank-1 >= 0 {
-			newPosition = Position{Rank: position.Rank - 1, File: position.File}
-		}
-	} else {
-		if position.Rank+1 < 8 {
-			newPosition = Position{Rank: position.Rank + 1, File: position.File}
+func MoveForward(steps int) []MoveFunc {
+	var out = make([]MoveFunc, steps)
+	for i := 0; i < steps; i++ {
+		out[i] = func(position Position, color Color, board Board) Position {
+			newPosition := position
+			if color == White {
+				if position.Rank-1 >= 0 {
+					newPosition = Position{Rank: position.Rank - 1, File: position.File}
+				}
+			} else {
+				if position.Rank+1 < 8 {
+					newPosition = Position{Rank: position.Rank + 1, File: position.File}
+				}
+			}
+
+			if !board.PositionIsEmpty(newPosition) {
+				return position
+			}
+
+			return newPosition
 		}
 	}
-
-	if !board.PositionIsEmpty(newPosition) {
-		return position
-	}
-
-	return newPosition
+	return out
 }
 
-func MoveBackward(position Position, color Color, board Board) Position {
-	newPosition := position
-	if color == White {
-		if position.Rank+1 < 8 {
-			newPosition = Position{Rank: position.Rank + 1, File: position.File}
-		}
-	} else {
-		if position.Rank-1 >= 0 {
-			newPosition = Position{Rank: position.Rank - 1, File: position.File}
+func MoveBackward(steps int) []MoveFunc {
+	var out = make([]MoveFunc, steps)
+	for i := 0; i < steps; i++ {
+		out[i] = func(position Position, color Color, board Board) Position {
+			newPosition := position
+			if color == White {
+				if position.Rank+1 < 8 {
+					newPosition = Position{Rank: position.Rank + 1, File: position.File}
+				}
+			} else {
+				if position.Rank-1 >= 0 {
+					newPosition = Position{Rank: position.Rank - 1, File: position.File}
+				}
+			}
+
+			if !board.PositionIsEmpty(newPosition) {
+				return position
+			}
+
+			return newPosition
 		}
 	}
-
-	if !board.PositionIsEmpty(newPosition) {
-		return position
-	}
-
-	return newPosition
+	return out
 }
 
-func MoveLeft(position Position, color Color, board Board) Position {
-	newPosition := position
-	if color == White {
-		if position.File-1 >= 0 {
-			newPosition = Position{Rank: position.Rank, File: position.File - 1}
-		}
-	} else {
-		if position.File+1 < 8 {
-			newPosition = Position{Rank: position.Rank, File: position.File + 1}
+func MoveLeft(steps int) []MoveFunc {
+	var out = make([]MoveFunc, steps)
+	for i := 0; i < steps; i++ {
+		out[i] = func(position Position, color Color, board Board) Position {
+			newPosition := position
+			if color == White {
+				if position.File-1 >= 0 {
+					newPosition = Position{Rank: position.Rank, File: position.File - 1}
+				}
+			} else {
+				if position.File+1 < 8 {
+					newPosition = Position{Rank: position.Rank, File: position.File + 1}
+				}
+			}
+
+			if !board.PositionIsEmpty(newPosition) {
+				return position
+			}
+
+			return newPosition
 		}
 	}
-
-	if !board.PositionIsEmpty(newPosition) {
-		return position
-	}
-
-	return newPosition
+	return out
 }
 
-func MoveRight(position Position, color Color, board Board) Position {
-	newPosition := position
+func MoveRight(steps int) []MoveFunc {
+	var out = make([]MoveFunc, steps)
+	for i := 0; i < steps; i++ {
+		out[i] = func(position Position, color Color, board Board) Position {
+			newPosition := position
+			if color == White {
+				if position.File+1 < 8 {
+					newPosition = Position{Rank: position.Rank, File: position.File + 1}
+				}
+			} else {
+				if position.File-1 >= 0 {
+					newPosition = Position{Rank: position.Rank, File: position.File - 1}
+				}
+			}
 
-	if color == White {
-		if position.File+1 < 8 {
-			newPosition = Position{Rank: position.Rank, File: position.File + 1}
-		}
-	} else {
-		if position.File-1 >= 0 {
-			newPosition = Position{Rank: position.Rank, File: position.File - 1}
+			if !board.PositionIsEmpty(newPosition) {
+				return position
+			}
+
+			return newPosition
 		}
 	}
-
-	if !board.PositionIsEmpty(newPosition) {
-		return position
-	}
-
-	return newPosition
+	return out
 }
 
-func MoveForwardLeft(position Position, color Color, board Board) Position {
-	newPosition := position
-	if color == White {
-		if position.Rank-1 >= 0 && position.File-1 >= 0 {
-			newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
-		}
-	} else {
-		if position.Rank+1 < 8 && position.File+1 < 8 {
-			newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
+func MoveForwardLeft(steps int) []MoveFunc {
+	var out = make([]MoveFunc, steps)
+	for i := 0; i < steps; i++ {
+		out[i] = func(position Position, color Color, board Board) Position {
+			newPosition := position
+			if color == White {
+				if position.Rank-1 >= 0 && position.File-1 >= 0 {
+					newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
+				}
+			} else {
+				if position.Rank+1 < 8 && position.File+1 < 8 {
+					newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
+				}
+			}
+
+			if !board.PositionIsEmpty(newPosition) {
+				return position
+			}
+
+			return newPosition
 		}
 	}
-
-	if !board.PositionIsEmpty(newPosition) {
-		return position
-	}
-
-	return newPosition
+	return out
 }
 
-func MoveForwardRight(position Position, color Color, board Board) Position {
-	newPosition := position
-	if color == White {
-		if position.Rank-1 >= 0 && position.File+1 < 8 {
-			newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
-		}
-	} else {
-		if position.Rank+1 < 8 && position.File-1 >= 0 {
-			newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
+func MoveForwardRight(steps int) []MoveFunc {
+	var out = make([]MoveFunc, steps)
+	for i := 0; i < steps; i++ {
+		out[i] = func(position Position, color Color, board Board) Position {
+			newPosition := position
+			if color == White {
+				if position.Rank-1 >= 0 && position.File+1 < 8 {
+					newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
+				}
+			} else {
+				if position.Rank+1 < 8 && position.File-1 >= 0 {
+					newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
+				}
+			}
+
+			if !board.PositionIsEmpty(newPosition) {
+				return position
+			}
+
+			return newPosition
 		}
 	}
-
-	if !board.PositionIsEmpty(newPosition) {
-		return position
-	}
-
-	return newPosition
+	return out
 }
 
-func MoveBackwardLeft(position Position, color Color, board Board) Position {
-	newPosition := position
-	if color == White {
-		if position.Rank+1 < 8 && position.File-1 >= 0 {
-			newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
-		}
-	} else {
-		if position.Rank-1 >= 0 && position.File+1 < 8 {
-			newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
+func MoveBackwardLeft(steps int) []MoveFunc {
+	var out = make([]MoveFunc, steps)
+	for i := 0; i < steps; i++ {
+		out[i] = func(position Position, color Color, board Board) Position {
+			newPosition := position
+			if color == White {
+				if position.Rank+1 < 8 && position.File-1 >= 0 {
+					newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
+				}
+			} else {
+				if position.Rank-1 >= 0 && position.File+1 < 8 {
+					newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
+				}
+			}
+
+			if !board.PositionIsEmpty(newPosition) {
+				return position
+			}
+
+			return newPosition
 		}
 	}
-
-	if !board.PositionIsEmpty(newPosition) {
-		return position
-	}
-
-	return newPosition
+	return out
 }
 
-func MoveBackwardRight(position Position, color Color, board Board) Position {
-	newPosition := position
-	if color == White {
-		if position.Rank+1 < 8 && position.File+1 < 8 {
-			newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
-		}
-	} else {
-		if position.Rank-1 >= 0 && position.File-1 >= 0 {
-			newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
+func MoveBackwardRight(steps int) []MoveFunc {
+	var out = make([]MoveFunc, steps)
+	for i := 0; i < steps; i++ {
+		out[i] = func(position Position, color Color, board Board) Position {
+			newPosition := position
+			if color == White {
+				if position.Rank+1 < 8 && position.File+1 < 8 {
+					newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
+				}
+			} else {
+				if position.Rank-1 >= 0 && position.File-1 >= 0 {
+					newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
+				}
+			}
+
+			if !board.PositionIsEmpty(newPosition) {
+				return position
+			}
+
+			return newPosition
 		}
 	}
-
-	if !board.PositionIsEmpty(newPosition) {
-		return position
-	}
-
-	return newPosition
+	return out
 }
 
 type Condition func(Position, Color, Board) bool

@@ -6,14 +6,14 @@ type King struct {
 }
 
 var kingMoves = Moves{
-	{Condition: ConditionTrue, Move: []MoveFunc{MoveForward}},
-	{Condition: ConditionTrue, Move: []MoveFunc{MoveBackward}},
-	{Condition: ConditionTrue, Move: []MoveFunc{MoveLeft}},
-	{Condition: ConditionTrue, Move: []MoveFunc{MoveRight}},
-	{Condition: ConditionTrue, Move: []MoveFunc{MoveForwardLeft}},
-	{Condition: ConditionTrue, Move: []MoveFunc{MoveForwardRight}},
-	{Condition: ConditionTrue, Move: []MoveFunc{MoveBackwardLeft}},
-	{Condition: ConditionTrue, Move: []MoveFunc{MoveBackwardRight}},
+	{Condition: ConditionTrue, Move: MoveForward(1)},
+	{Condition: ConditionTrue, Move: MoveBackward(1)},
+	{Condition: ConditionTrue, Move: MoveLeft(1)},
+	{Condition: ConditionTrue, Move: MoveRight(1)},
+	{Condition: ConditionTrue, Move: MoveForwardLeft(1)},
+	{Condition: ConditionTrue, Move: MoveForwardRight(1)},
+	{Condition: ConditionTrue, Move: MoveBackwardLeft(1)},
+	{Condition: ConditionTrue, Move: MoveBackwardRight(1)},
 }
 
 // NewKing creates a new King with the given position.

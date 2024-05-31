@@ -10,13 +10,11 @@ var pawnMoves = Moves{
 		Condition: func(position Position, color Color, board Board) bool {
 			return (color == White && position.Rank == 6) || (color == Black && position.Rank == 1)
 		},
-		Move: []MoveFunc{MoveForward, MoveForward},
+		Move: MoveForward(2),
 	},
 	{
-		Condition: func(position Position, color Color, board Board) bool {
-			return true
-		},
-		Move: []MoveFunc{MoveForward},
+		Condition: ConditionTrue,
+		Move:      MoveForward(1),
 	},
 }
 
