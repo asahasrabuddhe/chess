@@ -1,0 +1,15 @@
+goos: darwin
+goarch: arm64
+pkg: chess
+BenchmarkKing_Moves-12    	 3048841	       379.0 ns/op	     144 B/op	       9 allocs/op
+BenchmarkKing_Moves-12    	 3164331	       376.8 ns/op	     144 B/op	       9 allocs/op
+BenchmarkKing_Moves-12    	 3201606	       375.3 ns/op	     144 B/op	       9 allocs/op
+BenchmarkKing_Moves-12    	 3118023	       379.2 ns/op	     144 B/op	       9 allocs/op
+BenchmarkKing_Moves-12    	 3182601	       379.4 ns/op	     144 B/op	       9 allocs/op
+BenchmarkKing_Moves-12    	 3191221	       378.5 ns/op	     144 B/op	       9 allocs/op
+BenchmarkKing_Moves-12    	 3183103	       378.1 ns/op	     144 B/op	       9 allocs/op
+BenchmarkKing_Moves-12    	 3200982	       378.7 ns/op	     144 B/op	       9 allocs/op
+BenchmarkKing_Moves-12    	 3168880	       380.5 ns/op	     144 B/op	       9 allocs/op
+BenchmarkKing_Moves-12    	 3162978	       380.2 ns/op	     144 B/op	       9 allocs/op
+PASS
+ok  	chess	16.210s
