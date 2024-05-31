@@ -1,10 +1,10 @@
 package chess
 
-type MoveFunc func(Piece, Board) Position
+type MoveFunc func(Position, Color, Board) Position
 
-func MoveForward(piece Piece, board Board) Position {
-	position, newPosition := piece.Position(), Position{}
-	if piece.Color() == White {
+func MoveForward(position Position, color Color, board Board) Position {
+	newPosition := Position{}
+	if color == White {
 		if position.Rank-1 >= 0 {
 			newPosition = Position{Rank: position.Rank - 1, File: position.File}
 		}
@@ -21,17 +21,17 @@ func MoveForward(piece Piece, board Board) Position {
 	return newPosition
 }
 
-type Condition func(Piece, Board) bool
+type Condition func(Position, Color, Board) bool
 
 func (c Condition) And(other Condition) Condition {
-	return func(piece Piece, board Board) bool {
-		return c(piece, board) && other(piece, board)
+	return func(position Position, color Color, board Board) bool {
+		return c(position, color, board) && other(position, color, board)
 	}
 }
 
 func (c Condition) Or(other Condition) Condition {
-	return func(piece Piece, board Board) bool {
-		return c(piece, board) || other(piece, board)
+	return func(position Position, color Color, board Board) bool {
+		return c(position, color, board) || other(position, color, board)
 	}
 }
 
@@ -45,13 +45,13 @@ type Moves []Move
 func (m Moves) PossiblePositions(piece Piece, board Board) []Position {
 	var positions []Position
 	for _, move := range m {
-		if move.Condition(piece, board) {
+		position, color := piece.Position(), piece.Color()
+		if move.Condition(position, color, board) {
 			for _, f := range move.Move {
-				newPosition := f(piece, board)
-				if !board.PositionIsEmpty(newPosition) {
-					break
-				}
-				positions = append(positions, newPosition)
+				position = f(position, color, board)
+			}
+			if board.PositionIsEmpty(position) {
+				positions = append(positions, position)
 			}
 		}
 	}

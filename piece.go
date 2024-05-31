@@ -1,5 +1,7 @@
 package chess
 
+import "sort"
+
 type Color int
 
 const (
@@ -36,7 +38,15 @@ func NewPiece(position string, color Color, possibleMoves Moves) (Piece, error) 
 
 // PossiblePositions returns a list of possible moves for the piece.
 func (p *piece) PossiblePositions(board Board) []Position {
-	return p.possibleMoves.PossiblePositions(p, board)
+	positions := p.possibleMoves.PossiblePositions(p, board)
+	sort.Slice(positions, func(i, j int) bool {
+		if p.color == White {
+			return positions[i].Rank > positions[j].Rank
+		} else {
+			return positions[i].Rank < positions[j].Rank
+		}
+	})
+	return positions
 }
 
 // Position returns the position of the piece.

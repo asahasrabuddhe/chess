@@ -7,16 +7,13 @@ type Pawn struct {
 
 var pawnMoves = Moves{
 	{
-		Condition: func(piece Piece, board Board) bool {
-			color := piece.Color()
-			rank := piece.Position().Rank
-
-			return (color == White && rank == 6) || (color == Black && rank == 1)
+		Condition: func(position Position, color Color, board Board) bool {
+			return (color == White && position.Rank == 6) || (color == Black && position.Rank == 1)
 		},
 		Move: []MoveFunc{MoveForward, MoveForward},
 	},
 	{
-		Condition: func(piece Piece, board Board) bool {
+		Condition: func(position Position, color Color, board Board) bool {
 			return true
 		},
 		Move: []MoveFunc{MoveForward},
