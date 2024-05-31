@@ -3,7 +3,7 @@ package chess
 type MoveFunc func(Position, Color, Board) Position
 
 func MoveForward(position Position, color Color, board Board) Position {
-	newPosition := Position{}
+	newPosition := position
 	if color == White {
 		if position.Rank-1 >= 0 {
 			newPosition = Position{Rank: position.Rank - 1, File: position.File}
@@ -11,6 +11,140 @@ func MoveForward(position Position, color Color, board Board) Position {
 	} else {
 		if position.Rank+1 < 8 {
 			newPosition = Position{Rank: position.Rank + 1, File: position.File}
+		}
+	}
+
+	if !board.PositionIsEmpty(newPosition) {
+		return position
+	}
+
+	return newPosition
+}
+
+func MoveBackward(position Position, color Color, board Board) Position {
+	newPosition := position
+	if color == White {
+		if position.Rank+1 < 8 {
+			newPosition = Position{Rank: position.Rank + 1, File: position.File}
+		}
+	} else {
+		if position.Rank-1 >= 0 {
+			newPosition = Position{Rank: position.Rank - 1, File: position.File}
+		}
+	}
+
+	if !board.PositionIsEmpty(newPosition) {
+		return position
+	}
+
+	return newPosition
+}
+
+func MoveLeft(position Position, color Color, board Board) Position {
+	newPosition := position
+	if color == White {
+		if position.File-1 >= 0 {
+			newPosition = Position{Rank: position.Rank, File: position.File - 1}
+		}
+	} else {
+		if position.File+1 < 8 {
+			newPosition = Position{Rank: position.Rank, File: position.File + 1}
+		}
+	}
+
+	if !board.PositionIsEmpty(newPosition) {
+		return position
+	}
+
+	return newPosition
+}
+
+func MoveRight(position Position, color Color, board Board) Position {
+	newPosition := position
+
+	if color == White {
+		if position.File+1 < 8 {
+			newPosition = Position{Rank: position.Rank, File: position.File + 1}
+		}
+	} else {
+		if position.File-1 >= 0 {
+			newPosition = Position{Rank: position.Rank, File: position.File - 1}
+		}
+	}
+
+	if !board.PositionIsEmpty(newPosition) {
+		return position
+	}
+
+	return newPosition
+}
+
+func MoveForwardLeft(position Position, color Color, board Board) Position {
+	newPosition := position
+	if color == White {
+		if position.Rank-1 >= 0 && position.File-1 >= 0 {
+			newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
+		}
+	} else {
+		if position.Rank+1 < 8 && position.File+1 < 8 {
+			newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
+		}
+	}
+
+	if !board.PositionIsEmpty(newPosition) {
+		return position
+	}
+
+	return newPosition
+}
+
+func MoveForwardRight(position Position, color Color, board Board) Position {
+	newPosition := position
+	if color == White {
+		if position.Rank-1 >= 0 && position.File+1 < 8 {
+			newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
+		}
+	} else {
+		if position.Rank+1 < 8 && position.File-1 >= 0 {
+			newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
+		}
+	}
+
+	if !board.PositionIsEmpty(newPosition) {
+		return position
+	}
+
+	return newPosition
+}
+
+func MoveBackwardLeft(position Position, color Color, board Board) Position {
+	newPosition := position
+	if color == White {
+		if position.Rank+1 < 8 && position.File-1 >= 0 {
+			newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
+		}
+	} else {
+		if position.Rank-1 >= 0 && position.File+1 < 8 {
+			newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
+		}
+	}
+
+	if !board.PositionIsEmpty(newPosition) {
+		return position
+	}
+
+	return newPosition
+}
+
+func MoveBackwardRight(position Position, color Color, board Board) Position {
+	newPosition := position
+	if color == White {
+		if position.Rank+1 < 8 && position.File+1 < 8 {
+			newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
+		}
+	} else {
+		if position.Rank-1 >= 0 && position.File-1 >= 0 {
+			newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
 		}
 	}
 
@@ -35,6 +169,10 @@ func (c Condition) Or(other Condition) Condition {
 	}
 }
 
+func ConditionTrue(_ Position, _ Color, _ Board) bool {
+	return true
+}
+
 type Move struct {
 	Condition Condition
 	Move      []MoveFunc
@@ -50,7 +188,7 @@ func (m Moves) PossiblePositions(piece Piece, board Board) []Position {
 			for _, f := range move.Move {
 				position = f(position, color, board)
 			}
-			if board.PositionIsEmpty(position) {
+			if board.PositionIsEmpty(position) && board.PositionIsValid(position) && position != piece.Position() {
 				positions = append(positions, position)
 			}
 		}

@@ -2,7 +2,7 @@ package chess
 
 // Pawn represents a pawn.
 type Pawn struct {
-	*piece
+	Piece
 }
 
 var pawnMoves = Moves{
@@ -27,5 +27,5 @@ func NewPawn(position string, color Color) (*Pawn, error) {
 		return nil, err
 	}
 
-	return &Pawn{piece: p.(*piece)}, nil
+	return &Pawn{Piece: p}, nil
 }

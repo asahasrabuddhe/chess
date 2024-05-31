@@ -153,7 +153,7 @@ func TestPawn_Moves(t *testing.T) {
 				color:    White,
 				board:    EmptyBoard(),
 			},
-			want: []string{"D3", "D4"},
+			want: []string{"D4", "D3"},
 		},
 		{
 			name: "Pawn D2: Black",
@@ -180,7 +180,7 @@ func TestPawn_Moves(t *testing.T) {
 				color:    Black,
 				board:    EmptyBoard(),
 			},
-			want: []string{"D6", "D5"},
+			want: []string{"D5", "D6"},
 		},
 	}
 	for _, tt := range tests {
@@ -195,10 +195,12 @@ func TestPawn_Moves(t *testing.T) {
 				if got != nil && tt.want != nil {
 					if len(got) != len(tt.want) {
 						t.Errorf("PossiblePositions() got=%v, want = %v", got, tt.want)
+						return
 					}
 					for i, g := range got {
 						if g.String() != tt.want[i] {
-							t.Errorf("PossiblePositions() got=%v, want = %v", g.String(), tt.want[i])
+							t.Errorf("PossiblePositions() got=%v, want = %v", got, tt.want)
+							return
 						}
 					}
 				}

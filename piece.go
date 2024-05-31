@@ -41,9 +41,9 @@ func (p *piece) PossiblePositions(board Board) []Position {
 	positions := p.possibleMoves.PossiblePositions(p, board)
 	sort.Slice(positions, func(i, j int) bool {
 		if p.color == White {
-			return positions[i].Rank > positions[j].Rank
+			return (positions[i].Rank > positions[j].Rank) && (positions[i].File > positions[j].File)
 		} else {
-			return positions[i].Rank < positions[j].Rank
+			return (positions[i].Rank < positions[j].Rank) && (positions[i].File < positions[j].File)
 		}
 	})
 	return positions
@@ -64,67 +64,6 @@ func (p *piece) PossibleMoves() Moves {
 	return p.possibleMoves
 }
 
-//// King represents a king.
-//type King struct {
-//	position Position
-//}
-//
-//// NewKing creates a new King with the given position.
-//func NewKing(position string) (*King, error) {
-//	pos, err := ParsePosition(position)
-//	if err != nil {
-//		return nil, err
-//	}
-//	return &King{position: pos}, nil
-//}
-//
-//// PossiblePositions returns a list of possible moves for the king.
-//func (k *King) PossiblePositions(board Board) []string {
-//	// a king can possibly move 1 step in 8 directions.
-//	var moves = make([]string, 0, 8)
-//	// move one step forward
-//	if k.position.File-1 >= 0 {
-//		newPos := Position{File: k.position.File - 1, Rank: k.position.Rank}
-//		moves = append(moves, newPos.String())
-//	}
-//	// move one step backward
-//	if k.position.File+1 <= 7 {
-//		newPos := Position{File: k.position.File + 1, Rank: k.position.Rank}
-//		moves = append(moves, newPos.String())
-//	}
-//	// move one step to the left
-//	if k.position.Rank-1 >= 0 {
-//		newPos := Position{File: k.position.File, Rank: k.position.Rank - 1}
-//		moves = append(moves, newPos.String())
-//	}
-//	// move one step to the right
-//	if k.position.Rank+1 <= 7 {
-//		newPos := Position{File: k.position.File, Rank: k.position.Rank + 1}
-//		moves = append(moves, newPos.String())
-//	}
-//	// move one step diagonally forward to the left
-//	if k.position.File+1 <= 7 && k.position.Rank-1 >= 0 {
-//		newPos := Position{File: k.position.File + 1, Rank: k.position.Rank - 1}
-//		moves = append(moves, newPos.String())
-//	}
-//	// move one step diagonally forward to the right
-//	if k.position.File+1 <= 7 && k.position.Rank+1 <= 7 {
-//		newPos := Position{File: k.position.File + 1, Rank: k.position.Rank + 1}
-//		moves = append(moves, newPos.String())
-//	}
-//	// move one step diagonally backward to the left
-//	if k.position.File-1 >= 0 && k.position.Rank-1 >= 0 {
-//		newPos := Position{File: k.position.File - 1, Rank: k.position.Rank - 1}
-//		moves = append(moves, newPos.String())
-//	}
-//	// move one step diagonally backward to the right
-//	if k.position.File-1 >= 0 && k.position.Rank+1 <= 7 {
-//		newPos := Position{File: k.position.File - 1, Rank: k.position.Rank + 1}
-//		moves = append(moves, newPos.String())
-//	}
-//	return moves
-//}
-//
 //// Queen represents a queen.
 //type Queen struct {
 //	position Position
