@@ -12,9 +12,9 @@ import (
 func main() {
 	log.SetFlags(0)
 
-	if len(os.Args) != 3 {
-		log.Println("Usage: chess <piece type> <position>")
-		log.Println("Example: chess Pawn E2")
+	if len(os.Args) != 2 {
+		log.Println("Usage: chess <piece type, position>")
+		log.Println("Example: chess 'Pawn, E2'")
 		log.Println("Valid piece types: Pawn, King, Queen")
 		log.Println("Valid positions: A1-H8")
 		os.Exit(1)
@@ -24,7 +24,8 @@ func main() {
 		piece chess.Piece
 		err   error
 	)
-	pieceType, position := strings.ToLower(os.Args[1]), strings.ToUpper(os.Args[2])
+	inputs := strings.Split(os.Args[1], ", ")
+	pieceType, position := strings.ToLower(inputs[0]), strings.ToUpper(inputs[1])
 
 	switch pieceType {
 	case "pawn":
