@@ -19,7 +19,7 @@ func TestKing_Moves(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "King D5",
+			name: "King D5: White",
 			args: args{
 				position: "D5",
 				color:    White,
@@ -28,7 +28,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"D6", "D4", "C5", "E5", "C6", "E6", "C4", "E4"},
 		},
 		{
-			name: "King D5",
+			name: "King D5: Black",
 			args: args{
 				position: "D5",
 				color:    Black,
@@ -37,7 +37,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"D4", "D6", "E5", "C5", "E4", "C4", "E6", "C6"},
 		},
 		{
-			name: "King E8",
+			name: "King E8: White",
 			args: args{
 				position: "E8",
 				color:    White,
@@ -46,7 +46,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"E7", "D8", "F8", "D7", "F7"},
 		},
 		{
-			name: "King E8",
+			name: "King E8: Black",
 			args: args{
 				position: "E8",
 				color:    Black,
@@ -55,7 +55,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"E7", "F8", "D8", "F7", "D7"},
 		},
 		{
-			name: "King A1",
+			name: "King A1: White",
 			args: args{
 				position: "A1",
 				color:    White,
@@ -64,7 +64,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"B1", "A2", "B2"},
 		},
 		{
-			name: "King A1",
+			name: "King A1: Black",
 			args: args{
 				position: "A1",
 				color:    Black,
@@ -73,7 +73,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"A2", "B1", "B2"},
 		},
 		{
-			name: "King H6",
+			name: "King H6: White",
 			args: args{
 				position: "H6",
 				color:    White,
@@ -82,7 +82,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"H7", "H5", "G6", "G7", "G5"},
 		},
 		{
-			name: "King H6",
+			name: "King H6: Black",
 			args: args{
 				position: "H6",
 				color:    Black,
@@ -91,7 +91,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"H5", "H7", "G6", "G5", "G7"},
 		},
 		{
-			name: "King C3",
+			name: "King C3: White",
 			args: args{
 				position: "C3",
 				color:    White,
@@ -100,7 +100,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"C4", "C2", "B3", "D3", "B4", "D4", "B2", "D2"},
 		},
 		{
-			name: "King C3",
+			name: "King C3: Black",
 			args: args{
 				position: "C3",
 				color:    Black,
@@ -109,7 +109,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"C2", "C4", "D3", "B3", "D2", "B2", "D4", "B4"},
 		},
 		{
-			name: "King F4",
+			name: "King F4: White",
 			args: args{
 				position: "F4",
 				color:    White,
@@ -118,7 +118,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"F5", "F3", "E4", "G4", "E5", "G5", "E3", "G3"},
 		},
 		{
-			name: "King F4",
+			name: "King F4: Black",
 			args: args{
 				position: "F4",
 				color:    Black,
@@ -127,7 +127,7 @@ func TestKing_Moves(t *testing.T) {
 			want: []string{"F3", "F5", "G4", "E4", "G3", "E3", "G5", "E5"},
 		},
 		{
-			name: "King I9",
+			name: "King I9: White",
 			args: args{
 				position: "I9",
 				color:    White,
@@ -137,7 +137,7 @@ func TestKing_Moves(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "King I9",
+			name: "King I9: Black",
 			args: args{
 				position: "I9",
 				color:    Black,
