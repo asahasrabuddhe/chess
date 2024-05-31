@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"go.ajitem.com/chess"
+	"github.com/asahasrabuddhe/chess"
 )
 
 func main() {

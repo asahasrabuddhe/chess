@@ -3,7 +3,7 @@
 ## Installation
 
 ```bash
-go install github.com/asahasrabuddhe/chess/cmd/chess@v0.2
+go install github.com/asahasrabuddhe/chess/cmd/chess@v0.0.2
 ```
 
 ## Usage
