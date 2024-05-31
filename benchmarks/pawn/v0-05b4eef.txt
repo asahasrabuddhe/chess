@@ -1,0 +1,15 @@
+goos: darwin
+goarch: arm64
+pkg: chess
+BenchmarkPawn_Moves-12    	30554370	        39.00 ns/op	      18 B/op	       2 allocs/op
+BenchmarkPawn_Moves-12    	29892139	        39.09 ns/op	      18 B/op	       2 allocs/op
+BenchmarkPawn_Moves-12    	30356434	        39.25 ns/op	      18 B/op	       2 allocs/op
+BenchmarkPawn_Moves-12    	30198302	        39.04 ns/op	      18 B/op	       2 allocs/op
+BenchmarkPawn_Moves-12    	30216139	        39.05 ns/op	      18 B/op	       2 allocs/op
+BenchmarkPawn_Moves-12    	30040303	        39.28 ns/op	      18 B/op	       2 allocs/op
+BenchmarkPawn_Moves-12    	30201975	        39.20 ns/op	      18 B/op	       2 allocs/op
+BenchmarkPawn_Moves-12    	30460653	        39.27 ns/op	      18 B/op	       2 allocs/op
+BenchmarkPawn_Moves-12    	29820238	        41.12 ns/op	      18 B/op	       2 allocs/op
+BenchmarkPawn_Moves-12    	27194337	        39.80 ns/op	      18 B/op	       2 allocs/op
+PASS
+ok  	chess	13.379s
