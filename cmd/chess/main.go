@@ -10,6 +10,8 @@ import (
 )
 
 func main() {
+	log.SetFlags(0)
+
 	if len(os.Args) != 3 {
 		log.Println("Usage: chess <piece type> <position>")
 		log.Println("Example: chess Pawn E2")
