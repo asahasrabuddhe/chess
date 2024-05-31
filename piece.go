@@ -1,13 +1,17 @@
 package chess
 
+// Piece represents a chess piece.
 type Piece interface {
+	// Moves returns a list of possible moves for the piece.
 	Moves() []string
 }
 
+// Pawn represents a pawn.
 type Pawn struct {
 	position Position
 }
 
+// NewPawn creates a new Pawn with the given position.
 func NewPawn(position string) (*Pawn, error) {
 	pos, err := ParsePosition(position)
 	if err != nil {
@@ -16,6 +20,7 @@ func NewPawn(position string) (*Pawn, error) {
 	return &Pawn{position: pos}, nil
 }
 
+// Moves returns a list of possible moves for the pawn.
 func (p *Pawn) Moves() []string {
 	// move one step forward
 	if p.position.Row-1 >= 0 {
@@ -25,10 +30,12 @@ func (p *Pawn) Moves() []string {
 	return nil
 }
 
+// King represents a king.
 type King struct {
 	position Position
 }
 
+// NewKing creates a new King with the given position.
 func NewKing(position string) (*King, error) {
 	pos, err := ParsePosition(position)
 	if err != nil {
@@ -37,6 +44,7 @@ func NewKing(position string) (*King, error) {
 	return &King{position: pos}, nil
 }
 
+// Moves returns a list of possible moves for the king.
 func (k *King) Moves() []string {
 	// a king can possibly move 1 step in 8 directions.
 	var moves = make([]string, 0, 8)
@@ -83,10 +91,12 @@ func (k *King) Moves() []string {
 	return moves
 }
 
+// Queen represents a queen.
 type Queen struct {
 	position Position
 }
 
+// NewQueen creates a new Queen with the given position.
 func NewQueen(position string) (*Queen, error) {
 	pos, err := ParsePosition(position)
 	if err != nil {
@@ -95,6 +105,7 @@ func NewQueen(position string) (*Queen, error) {
 	return &Queen{position: pos}, nil
 }
 
+// Moves returns a list of possible moves for the queen.
 func (q *Queen) Moves() []string {
 	up, down, left, right := q.position.Row, 7-q.position.Row, q.position.Col, 7-q.position.Col
 	var diagFwdLeft, diagFwdRight, diagBackLeft, diagBackRight int
@@ -110,6 +121,7 @@ func (q *Queen) Moves() []string {
 	for i := 1; i <= 7-q.position.Row && i <= 7-q.position.Col; i++ {
 		diagBackRight++
 	}
+	// pre allocate the moves slice with the maximum possible moves
 	var moves = make([]string, 0, up+down+left+right+diagFwdLeft+diagFwdRight+diagBackLeft+diagBackRight)
 	// move forward across the board
 	for i := 1; i <= q.position.Row; i++ {
