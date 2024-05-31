@@ -1,11 +1,12 @@
 package main
 
 import (
-	"chess"
 	"fmt"
 	"log"
 	"os"
 	"strings"
+
+	"go.ajitem.com/chess"
 )
 
 func main() {
