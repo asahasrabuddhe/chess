@@ -96,7 +96,21 @@ func NewQueen(position string) (*Queen, error) {
 }
 
 func (q *Queen) Moves() []string {
-	var moves []string
+	up, down, left, right := q.position.Row, 7-q.position.Row, q.position.Col, 7-q.position.Col
+	var diagFwdLeft, diagFwdRight, diagBackLeft, diagBackRight int
+	for i := 1; i <= q.position.Row && i <= q.position.Col; i++ {
+		diagFwdLeft++
+	}
+	for i := 1; i <= q.position.Row && i <= 7-q.position.Col; i++ {
+		diagFwdRight++
+	}
+	for i := 1; i <= 7-q.position.Row && i <= q.position.Col; i++ {
+		diagBackLeft++
+	}
+	for i := 1; i <= 7-q.position.Row && i <= 7-q.position.Col; i++ {
+		diagBackRight++
+	}
+	var moves = make([]string, 0, up+down+left+right+diagFwdLeft+diagFwdRight+diagBackLeft+diagBackRight)
 	// move forward across the board
 	for i := 1; i <= q.position.Row; i++ {
 		newPos := Position{Row: q.position.Row - i, Col: q.position.Col}
