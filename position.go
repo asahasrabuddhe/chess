@@ -34,5 +34,5 @@ func ParsePosition(position string) (Position, error) {
 // String returns the string representation of a Position.
 func (p Position) String() string {
 	// Convert the row and column indices to string.
-	return string(rune('A'+p.Col)) + string(rune(8-p.Row+'0'))
+	return string(rune('A'+p.Col)) + string(rune('8'-p.Row))
 }
