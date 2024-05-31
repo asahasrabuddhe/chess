@@ -1,6 +1,8 @@
 package chess
 
 import (
+	"fmt"
+	"io"
 	"reflect"
 	"testing"
 )
@@ -82,6 +84,17 @@ func TestPawn_Moves(t *testing.T) {
 	}
 }
 
+func BenchmarkPawn_Moves(b *testing.B) {
+	var moves []string
+
+	pawn, _ := NewPawn("D5")
+	for i := 0; i <= b.N; i++ {
+		moves = pawn.Moves()
+	}
+
+	_, _ = fmt.Fprintln(io.Discard, moves)
+}
+
 func TestKing_Moves(t *testing.T) {
 	type fields struct {
 		position string
@@ -157,6 +170,17 @@ func TestKing_Moves(t *testing.T) {
 			}
 		})
 	}
+}
+
+func BenchmarkKing_Moves(b *testing.B) {
+	var moves []string
+
+	king, _ := NewKing("D5")
+	for i := 0; i < b.N; i++ {
+		moves = king.Moves()
+	}
+
+	_, _ = fmt.Fprintln(io.Discard, moves)
 }
 
 func TestQueen_Moves(t *testing.T) {
