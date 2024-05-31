@@ -1,6 +1,8 @@
 package chess
 
 import (
+	"fmt"
+	"io"
 	"reflect"
 	"testing"
 )
@@ -110,4 +112,15 @@ func TestPosition_String(t *testing.T) {
 			}
 		})
 	}
+}
+
+func BenchmarkPosition_String(b *testing.B) {
+	var position string
+	pos := Position{Row: 5, Col: 2}
+
+	for i := 0; i < b.N; i++ {
+		position = pos.String()
+	}
+
+	_, _ = fmt.Fprintln(io.Discard, position)
 }
