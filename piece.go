@@ -17,13 +17,12 @@ func NewPawn(position string) (*Pawn, error) {
 }
 
 func (p *Pawn) Moves() []string {
-	var moves []string
 	// move one step forward
 	if p.position.Row-1 >= 0 {
 		newPos := Position{Row: p.position.Row - 1, Col: p.position.Col}
-		moves = append(moves, newPos.String())
+		return []string{newPos.String()}
 	}
-	return moves
+	return nil
 }
 
 type King struct {
