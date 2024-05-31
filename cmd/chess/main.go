@@ -49,5 +49,5 @@ func main() {
 	}
 
 	moves := piece.PossiblePositions(b)
-	fmt.Println("Possible moves:", strings.Join(moves, ", "))
+	fmt.Printf("Possible moves: %v\n", moves)
 }

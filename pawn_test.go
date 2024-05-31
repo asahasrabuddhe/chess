@@ -153,7 +153,7 @@ func TestPawn_Moves(t *testing.T) {
 				color:    White,
 				board:    EmptyBoard(),
 			},
-			want: []string{"D4", "D3"},
+			want: []string{"D3", "D4"},
 		},
 		{
 			name: "Pawn D2: Black",
@@ -180,7 +180,7 @@ func TestPawn_Moves(t *testing.T) {
 				color:    Black,
 				board:    EmptyBoard(),
 			},
-			want: []string{"D5", "D6"},
+			want: []string{"D6", "D5"},
 		},
 	}
 	for _, tt := range tests {

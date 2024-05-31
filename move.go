@@ -1,5 +1,9 @@
 package chess
 
+import (
+	"slices"
+)
+
 type MoveFunc func(Position, Color, Board) Position
 
 func MoveForward(steps int) []MoveFunc {
@@ -232,11 +236,14 @@ func (m Moves) PossiblePositions(piece Piece, board Board) []Position {
 	for _, move := range m {
 		position, color := piece.Position(), piece.Color()
 		if move.Condition(position, color, board) {
-			for _, f := range move.Move {
-				position = f(position, color, board)
-			}
-			if board.PositionIsEmpty(position) && board.PositionIsValid(position) && position != piece.Position() {
-				positions = append(positions, position)
+			for idx, f := range move.Move {
+				position, color = piece.Position(), piece.Color()
+				for i := 0; i < idx+1; i++ {
+					position = f(position, color, board)
+				}
+				if board.PositionIsEmpty(position) && board.PositionIsValid(position) && position != piece.Position() && !slices.Contains(positions, position) {
+					positions = append(positions, position)
+				}
 			}
 		}
 	}

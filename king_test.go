@@ -61,7 +61,7 @@ func TestKing_Moves(t *testing.T) {
 				color:    White,
 				board:    EmptyBoard(),
 			},
-			want: []string{"B1", "A2", "B2"},
+			want: []string{"A2", "B1", "B2"},
 		},
 		{
 			name: "King A1: Black",
