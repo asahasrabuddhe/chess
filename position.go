@@ -24,5 +24,5 @@ func ParsePosition(position string) (Position, error) {
 }
 
 func (p Position) String() string {
-	return string(rune('A'+p.Col)) + fmt.Sprint(8-p.Row)
+	return string(rune('A'+p.Col)) + string(rune(8-p.Row+'0'))
 }
