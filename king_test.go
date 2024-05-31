@@ -1,6 +1,8 @@
 package chess
 
 import (
+	"fmt"
+	"io"
 	"testing"
 )
 
@@ -21,6 +23,15 @@ func TestKing_Moves(t *testing.T) {
 			args: args{
 				position: "D5",
 				color:    White,
+				board:    EmptyBoard(),
+			},
+			want: []string{"D6", "D4", "C5", "E5", "C6", "E6", "C4", "E4"},
+		},
+		{
+			name: "King D5",
+			args: args{
+				position: "D5",
+				color:    Black,
 				board:    EmptyBoard(),
 			},
 			want: []string{"D6", "D4", "C5", "E5", "C6", "E6", "C4", "E4"},
@@ -107,13 +118,14 @@ func TestKing_Moves(t *testing.T) {
 	}
 }
 
-//func BenchmarkKing_Moves(b *testing.B) {
-//	var moves []string
-//
-//	king, _ := NewKing("D5")
-//	for i := 0; i < b.N; i++ {
-//		moves = king.PossiblePositions()
-//	}
-//
-//	_, _ = fmt.Fprintln(io.Discard, moves)
-//}
+func BenchmarkKing_Moves(b *testing.B) {
+	var possiblePositions []Position
+	var board = EmptyBoard()
+
+	king, _ := NewKing("D5", White)
+	for i := 0; i < b.N; i++ {
+		possiblePositions = king.PossiblePositions(board)
+	}
+
+	_, _ = fmt.Fprintln(io.Discard, possiblePositions)
+}
