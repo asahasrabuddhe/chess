@@ -1,3 +1,3 @@
-module go.ajitem.com/chess
+module chess
 
 go 1.22

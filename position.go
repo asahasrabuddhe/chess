@@ -1,4 +1,4 @@
-package chess // import "go.ajitem.com/chess"
+package chess
 
 import "fmt"
 
