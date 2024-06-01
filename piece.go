@@ -17,21 +17,24 @@ type Piece interface {
 	Color() Color
 	// PossibleMoves returns the possible moves for the Piece.
 	PossibleMoves() *Moves
+	// MaxPossibleMoves returns the maximum number of possible moves for the Piece.
+	MaxPossibleMoves() int
 }
 
 type piece struct {
-	position      Position
-	color         Color
-	possibleMoves *Moves
+	position         Position
+	color            Color
+	possibleMoves    *Moves
+	maxPossibleMoves int
 }
 
 // NewPiece creates a new Piece with the given position and color.
-func NewPiece(position string, color Color, possibleMoves *Moves) (Piece, error) {
+func NewPiece(position string, color Color, possibleMoves *Moves, maxPossibleMoves int) (Piece, error) {
 	pos, err := ParsePosition(position)
 	if err != nil {
 		return nil, err
 	}
-	return &piece{position: pos, color: color, possibleMoves: possibleMoves}, nil
+	return &piece{position: pos, color: color, possibleMoves: possibleMoves, maxPossibleMoves: maxPossibleMoves}, nil
 }
 
 // PossiblePositions returns a list of possible moves for the piece.
@@ -52,4 +55,9 @@ func (p *piece) Color() Color {
 // PossibleMoves returns the possible moves for the piece.
 func (p *piece) PossibleMoves() *Moves {
 	return p.possibleMoves
+}
+
+// MaxPossibleMoves returns the maximum number of possible moves for the piece.
+func (p *piece) MaxPossibleMoves() int {
+	return p.maxPossibleMoves
 }
