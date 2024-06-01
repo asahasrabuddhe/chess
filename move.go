@@ -2,6 +2,7 @@ package chess
 
 import (
 	"slices"
+	"sync"
 )
 
 // MoveFunc is a function that takes a Position, Color, and Board and returns the new Position after completing the
@@ -11,240 +12,344 @@ type MoveFunc func(Position, Color, *Board) Position
 // MoveForward returns a slice of MoveFuncs that move the piece forward by the given number of steps.
 func MoveForward(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
-	var out = make([]MoveFunc, steps)
+	var (
+		// Create a slice of MoveFuncs with the given number of steps.
+		out = make([]MoveFunc, steps)
+		// Create a WaitGroup to wait for all the goroutines to finish.
+		wg sync.WaitGroup
+	)
+	// Add the number of steps to the WaitGroup.
+	wg.Add(steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board *Board) Position {
-			newPosition := position
-			if color == White {
-				// If the color is White, move the piece up by one rank.
-				if position.Rank-1 >= 0 {
-					newPosition = Position{Rank: position.Rank - 1, File: position.File}
+		go func(index int) {
+			out[index] = func(position Position, color Color, board *Board) Position {
+				newPosition := position
+				if color == White {
+					// If the color is White, move the piece up by one rank.
+					if position.Rank-1 >= 0 {
+						newPosition = Position{Rank: position.Rank - 1, File: position.File}
+					}
+				} else {
+					// If the color is Black, move the piece down by one rank.
+					if position.Rank+1 < 8 {
+						newPosition = Position{Rank: position.Rank + 1, File: position.File}
+					}
 				}
-			} else {
-				// If the color is Black, move the piece down by one rank.
-				if position.Rank+1 < 8 {
-					newPosition = Position{Rank: position.Rank + 1, File: position.File}
+				// If the new position is not empty, return the original position.
+				if !board.PositionIsEmpty(newPosition) {
+					return position
 				}
+				// Return the new position.
+				return newPosition
 			}
-			// If the new position is not empty, return the original position.
-			if !board.PositionIsEmpty(newPosition) {
-				return position
-			}
-			// Return the new position.
-			return newPosition
-		}
+			// Signal that the goroutine has finished.
+			wg.Done()
+		}(i)
 	}
+	// Wait for all the goroutines to finish.
+	wg.Wait()
 	return out
 }
 
 // MoveBackward returns a slice of MoveFuncs that move the piece backward by the given number of steps.
 func MoveBackward(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
-	var out = make([]MoveFunc, steps)
+	var (
+		// Create a slice of MoveFuncs with the given number of steps.
+		out = make([]MoveFunc, steps)
+		// Create a WaitGroup to wait for all the goroutines to finish.
+		wg sync.WaitGroup
+	)
+	// Add the number of steps to the WaitGroup.
+	wg.Add(steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board *Board) Position {
-			newPosition := position
-			if color == White {
-				// If the color is White, move the piece down by one rank.
-				if position.Rank+1 < 8 {
-					newPosition = Position{Rank: position.Rank + 1, File: position.File}
+		go func(index int) {
+			out[index] = func(position Position, color Color, board *Board) Position {
+				newPosition := position
+				if color == White {
+					// If the color is White, move the piece down by one rank.
+					if position.Rank+1 < 8 {
+						newPosition = Position{Rank: position.Rank + 1, File: position.File}
+					}
+				} else {
+					// If the color is Black, move the piece up by one rank.
+					if position.Rank-1 >= 0 {
+						newPosition = Position{Rank: position.Rank - 1, File: position.File}
+					}
 				}
-			} else {
-				// If the color is Black, move the piece up by one rank.
-				if position.Rank-1 >= 0 {
-					newPosition = Position{Rank: position.Rank - 1, File: position.File}
+				// If the new position is not empty, return the original position.
+				if !board.PositionIsEmpty(newPosition) {
+					return position
 				}
+				// Return the new position.
+				return newPosition
 			}
-			// If the new position is not empty, return the original position.
-			if !board.PositionIsEmpty(newPosition) {
-				return position
-			}
-			// Return the new position.
-			return newPosition
-		}
+			// Signal that the goroutine has finished.
+			wg.Done()
+		}(i)
 	}
+	// Wait for all the goroutines to finish.
+	wg.Wait()
 	return out
 }
 
 // MoveLeft returns a slice of MoveFuncs that move the piece to the left by the given number of steps.
 func MoveLeft(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
-	var out = make([]MoveFunc, steps)
+	var (
+		// Create a slice of MoveFuncs with the given number of steps.
+		out = make([]MoveFunc, steps)
+		// Create a WaitGroup to wait for all the goroutines to finish.
+		wg sync.WaitGroup
+	)
+	// Add the number of steps to the WaitGroup.
+	wg.Add(steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board *Board) Position {
-			newPosition := position
-			if color == White {
-				// If the color is White, move the piece to the left by one file.
-				if position.File-1 >= 0 {
-					newPosition = Position{Rank: position.Rank, File: position.File - 1}
+		go func(index int) {
+			out[index] = func(position Position, color Color, board *Board) Position {
+				newPosition := position
+				if color == White {
+					// If the color is White, move the piece to the left by one file.
+					if position.File-1 >= 0 {
+						newPosition = Position{Rank: position.Rank, File: position.File - 1}
+					}
+				} else {
+					// If the color is Black, move the piece to the right by one file.
+					if position.File+1 < 8 {
+						newPosition = Position{Rank: position.Rank, File: position.File + 1}
+					}
 				}
-			} else {
-				// If the color is Black, move the piece to the right by one file.
-				if position.File+1 < 8 {
-					newPosition = Position{Rank: position.Rank, File: position.File + 1}
+				// If the new position is not empty, return the original position.
+				if !board.PositionIsEmpty(newPosition) {
+					return position
 				}
+				// Return the new position.
+				return newPosition
 			}
-			// If the new position is not empty, return the original position.
-			if !board.PositionIsEmpty(newPosition) {
-				return position
-			}
-			// Return the new position.
-			return newPosition
-		}
+			// Signal that the goroutine has finished.
+			wg.Done()
+		}(i)
 	}
+	// Wait for all the goroutines to finish.
+	wg.Wait()
 	return out
 }
 
 // MoveRight returns a slice of MoveFuncs that move the piece to the right by the given number of steps.
 func MoveRight(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
-	var out = make([]MoveFunc, steps)
+	var (
+		// Create a slice of MoveFuncs with the given number of steps.
+		out = make([]MoveFunc, steps)
+		// Create a WaitGroup to wait for all the goroutines to finish.
+		wg sync.WaitGroup
+	)
+	// Add the number of steps to the WaitGroup.
+	wg.Add(steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board *Board) Position {
-			newPosition := position
-			if color == White {
-				// If the color is White, move the piece to the right by one file.
-				if position.File+1 < 8 {
-					newPosition = Position{Rank: position.Rank, File: position.File + 1}
+		go func(index int) {
+			out[index] = func(position Position, color Color, board *Board) Position {
+				newPosition := position
+				if color == White {
+					// If the color is White, move the piece to the right by one file.
+					if position.File+1 < 8 {
+						newPosition = Position{Rank: position.Rank, File: position.File + 1}
+					}
+				} else {
+					// If the color is Black, move the piece to the left by one file.
+					if position.File-1 >= 0 {
+						newPosition = Position{Rank: position.Rank, File: position.File - 1}
+					}
 				}
-			} else {
-				// If the color is Black, move the piece to the left by one file.
-				if position.File-1 >= 0 {
-					newPosition = Position{Rank: position.Rank, File: position.File - 1}
+				// If the new position is not empty, return the original position.
+				if !board.PositionIsEmpty(newPosition) {
+					return position
 				}
+				// Return the new position.
+				return newPosition
 			}
-			// If the new position is not empty, return the original position.
-			if !board.PositionIsEmpty(newPosition) {
-				return position
-			}
-			// Return the new position.
-			return newPosition
-		}
+			// Signal that the goroutine has finished.
+			wg.Done()
+		}(i)
 	}
+	// Wait for all the goroutines to finish.
+	wg.Wait()
 	return out
 }
 
 // MoveForwardLeft returns a slice of MoveFuncs that move the piece forward and to the left by the given number of steps.
 func MoveForwardLeft(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
-	var out = make([]MoveFunc, steps)
+	var (
+		// Create a slice of MoveFuncs with the given number of steps.
+		out = make([]MoveFunc, steps)
+		// Create a WaitGroup to wait for all the goroutines to finish.
+		wg sync.WaitGroup
+	)
+	// Add the number of steps to the WaitGroup.
+	wg.Add(steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board *Board) Position {
-			newPosition := position
-			if color == White {
-				// If the color is White, move the piece up and to the left by one rank and file.
-				if position.Rank-1 >= 0 && position.File-1 >= 0 {
-					newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
+		go func(index int) {
+			out[index] = func(position Position, color Color, board *Board) Position {
+				newPosition := position
+				if color == White {
+					// If the color is White, move the piece up and to the left by one rank and file.
+					if position.Rank-1 >= 0 && position.File-1 >= 0 {
+						newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
+					}
+				} else {
+					// If the color is Black, move the piece down and to the right by one rank and file.
+					if position.Rank+1 < 8 && position.File+1 < 8 {
+						newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
+					}
 				}
-			} else {
-				// If the color is Black, move the piece down and to the right by one rank and file.
-				if position.Rank+1 < 8 && position.File+1 < 8 {
-					newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
+				// If the new position is not empty, return the original position.
+				if !board.PositionIsEmpty(newPosition) {
+					return position
 				}
+				// Return the new position.
+				return newPosition
 			}
-			// If the new position is not empty, return the original position.
-			if !board.PositionIsEmpty(newPosition) {
-				return position
-			}
-			// Return the new position.
-			return newPosition
-		}
+			// Signal that the goroutine has finished.
+			wg.Done()
+		}(i)
 	}
+	// Wait for all the goroutines to finish.
+	wg.Wait()
 	return out
 }
 
 // MoveForwardRight returns a slice of MoveFuncs that move the piece forward and to the right by the given number of steps.
 func MoveForwardRight(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
-	var out = make([]MoveFunc, steps)
+	var (
+		// Create a slice of MoveFuncs with the given number of steps.
+		out = make([]MoveFunc, steps)
+		// Create a WaitGroup to wait for all the goroutines to finish.
+		wg sync.WaitGroup
+	)
+	// Add the number of steps to the WaitGroup.
+	wg.Add(steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board *Board) Position {
-			newPosition := position
-			if color == White {
-				// If the color is White, move the piece up and to the right by one rank and file.
-				if position.Rank-1 >= 0 && position.File+1 < 8 {
-					newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
+		go func(index int) {
+			out[index] = func(position Position, color Color, board *Board) Position {
+				newPosition := position
+				if color == White {
+					// If the color is White, move the piece up and to the right by one rank and file.
+					if position.Rank-1 >= 0 && position.File+1 < 8 {
+						newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
+					}
+				} else {
+					// If the color is Black, move the piece down and to the left by one rank and file.
+					if position.Rank+1 < 8 && position.File-1 >= 0 {
+						newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
+					}
 				}
-			} else {
-				// If the color is Black, move the piece down and to the left by one rank and file.
-				if position.Rank+1 < 8 && position.File-1 >= 0 {
-					newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
+				// If the new position is not empty, return the original position.
+				if !board.PositionIsEmpty(newPosition) {
+					return position
 				}
+				// Return the new position.
+				return newPosition
 			}
-			// If the new position is not empty, return the original position.
-			if !board.PositionIsEmpty(newPosition) {
-				return position
-			}
-			// Return the new position.
-			return newPosition
-		}
+			// Signal that the goroutine has finished.
+			wg.Done()
+		}(i)
 	}
+	// Wait for all the goroutines to finish.
+	wg.Wait()
 	return out
 }
 
 // MoveBackwardLeft returns a slice of MoveFuncs that move the piece backward and to the left by the given number of steps.
 func MoveBackwardLeft(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
-	var out = make([]MoveFunc, steps)
+	var (
+		// Create a slice of MoveFuncs with the given number of steps.
+		out = make([]MoveFunc, steps)
+		// Create a WaitGroup to wait for all the goroutines to finish.
+		wg sync.WaitGroup
+	)
+	// Add the number of steps to the WaitGroup.
+	wg.Add(steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board *Board) Position {
-			newPosition := position
-			if color == White {
-				// If the color is White, move the piece down and to the left by one rank and file.
-				if position.Rank+1 < 8 && position.File-1 >= 0 {
-					newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
+		go func(index int) {
+			out[index] = func(position Position, color Color, board *Board) Position {
+				newPosition := position
+				if color == White {
+					// If the color is White, move the piece down and to the left by one rank and file.
+					if position.Rank+1 < 8 && position.File-1 >= 0 {
+						newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
+					}
+				} else {
+					// If the color is Black, move the piece up and to the right by one rank and file.
+					if position.Rank-1 >= 0 && position.File+1 < 8 {
+						newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
+					}
 				}
-			} else {
-				// If the color is Black, move the piece up and to the right by one rank and file.
-				if position.Rank-1 >= 0 && position.File+1 < 8 {
-					newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
+				// If the new position is not empty, return the original position.
+				if !board.PositionIsEmpty(newPosition) {
+					return position
 				}
+				// Return the new position.
+				return newPosition
 			}
-			// If the new position is not empty, return the original position.
-			if !board.PositionIsEmpty(newPosition) {
-				return position
-			}
-			// Return the new position.
-			return newPosition
-		}
+			// Signal that the goroutine has finished.
+			wg.Done()
+		}(i)
 	}
+	// Wait for all the goroutines to finish.
+	wg.Wait()
 	return out
 }
 
 // MoveBackwardRight returns a slice of MoveFuncs that move the piece backward and to the right by the given number of steps.
 func MoveBackwardRight(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
-	var out = make([]MoveFunc, steps)
+	var (
+		// Create a slice of MoveFuncs with the given number of steps.
+		out = make([]MoveFunc, steps)
+		// Create a WaitGroup to wait for all the goroutines to finish.
+		wg sync.WaitGroup
+	)
+	// Add the number of steps to the WaitGroup.
+	wg.Add(steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board *Board) Position {
-			newPosition := position
-			if color == White {
-				// If the color is White, move the piece down and to the right by one rank and file.
-				if position.Rank+1 < 8 && position.File+1 < 8 {
-					newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
+		go func(index int) {
+			out[index] = func(position Position, color Color, board *Board) Position {
+				newPosition := position
+				if color == White {
+					// If the color is White, move the piece down and to the right by one rank and file.
+					if position.Rank+1 < 8 && position.File+1 < 8 {
+						newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
+					}
+				} else {
+					// If the color is Black, move the piece up and to the left by one rank and file.
+					if position.Rank-1 >= 0 && position.File-1 >= 0 {
+						newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
+					}
 				}
-			} else {
-				// If the color is Black, move the piece up and to the left by one rank and file.
-				if position.Rank-1 >= 0 && position.File-1 >= 0 {
-					newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
+				// If the new position is not empty, return the original position.
+				if !board.PositionIsEmpty(newPosition) {
+					return position
 				}
+				// Return the new position.
+				return newPosition
 			}
-			// If the new position is not empty, return the original position.
-			if !board.PositionIsEmpty(newPosition) {
-				return position
-			}
-			// Return the new position.
-			return newPosition
-		}
+			// Signal that the goroutine has finished.
+			wg.Done()
+		}(i)
 	}
+	// Wait for all the goroutines to finish.
+	wg.Wait()
 	return out
 }
 
