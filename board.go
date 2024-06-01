@@ -6,8 +6,8 @@ type Board struct {
 }
 
 // EmptyBoard returns an empty chess board.
-func EmptyBoard() Board {
-	return Board{}
+func EmptyBoard() *Board {
+	return &Board{}
 }
 
 // PositionIsEmpty returns true if the position is empty.

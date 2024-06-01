@@ -10,23 +10,23 @@ const (
 // Piece represents a chess piece.
 type Piece interface {
 	// PossiblePositions returns a list of possible moves for the Piece.
-	PossiblePositions(Board) []Position
+	PossiblePositions(*Board) []Position
 	// Position returns the position of the Piece.
 	Position() Position
 	// Color returns the color of the Piece.
 	Color() Color
 	// PossibleMoves returns the possible moves for the Piece.
-	PossibleMoves() Moves
+	PossibleMoves() *Moves
 }
 
 type piece struct {
 	position      Position
 	color         Color
-	possibleMoves Moves
+	possibleMoves *Moves
 }
 
 // NewPiece creates a new Piece with the given position and color.
-func NewPiece(position string, color Color, possibleMoves Moves) (Piece, error) {
+func NewPiece(position string, color Color, possibleMoves *Moves) (Piece, error) {
 	pos, err := ParsePosition(position)
 	if err != nil {
 		return nil, err
@@ -35,7 +35,7 @@ func NewPiece(position string, color Color, possibleMoves Moves) (Piece, error) 
 }
 
 // PossiblePositions returns a list of possible moves for the piece.
-func (p *piece) PossiblePositions(board Board) []Position {
+func (p *piece) PossiblePositions(board *Board) []Position {
 	return p.possibleMoves.PossiblePositions(p, board)
 }
 
@@ -50,6 +50,6 @@ func (p *piece) Color() Color {
 }
 
 // PossibleMoves returns the possible moves for the piece.
-func (p *piece) PossibleMoves() Moves {
+func (p *piece) PossibleMoves() *Moves {
 	return p.possibleMoves
 }

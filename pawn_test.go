@@ -10,7 +10,7 @@ func TestPawn_Moves(t *testing.T) {
 	type args struct {
 		position string
 		color    Color
-		board    Board
+		board    *Board
 	}
 	tests := []struct {
 		name    string

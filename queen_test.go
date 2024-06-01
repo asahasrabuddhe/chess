@@ -10,7 +10,7 @@ func TestQueen_Moves(t *testing.T) {
 	type args struct {
 		position string
 		color    Color
-		board    Board
+		board    *Board
 	}
 	tests := []struct {
 		name    string
@@ -175,7 +175,7 @@ func TestQueen_Moves(t *testing.T) {
 
 func BenchmarkQueen_Moves(b *testing.B) {
 	var possiblePositions []Position
-	var board Board
+	var board = EmptyBoard()
 
 	queen, _ := NewQueen("D5", White)
 	for i := 0; i < b.N; i++ {

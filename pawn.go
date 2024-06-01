@@ -7,7 +7,7 @@ type Pawn struct {
 
 var pawnMoves = Moves{
 	{
-		Condition: func(position Position, color Color, board Board) bool {
+		Condition: func(position Position, color Color, _ *Board) bool {
 			return (color == White && position.Rank == 6) || (color == Black && position.Rank == 1)
 		},
 		Move: MoveForward(2),
@@ -20,7 +20,7 @@ var pawnMoves = Moves{
 
 // NewPawn creates a new Pawn with the given position and color.
 func NewPawn(position string, color Color) (*Pawn, error) {
-	p, err := NewPiece(position, color, pawnMoves)
+	p, err := NewPiece(position, color, &pawnMoves)
 	if err != nil {
 		return nil, err
 	}

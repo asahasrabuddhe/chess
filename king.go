@@ -18,7 +18,7 @@ var kingMoves = Moves{
 
 // NewKing creates a new King with the given position.
 func NewKing(position string, color Color) (*King, error) {
-	p, err := NewPiece(position, color, kingMoves)
+	p, err := NewPiece(position, color, &kingMoves)
 	if err != nil {
 		return nil, err
 	}

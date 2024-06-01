@@ -18,7 +18,7 @@ var queenMoves = Moves{
 
 // NewQueen creates a new Queen with the given position.
 func NewQueen(position string, color Color) (*Queen, error) {
-	p, err := NewPiece(position, color, queenMoves)
+	p, err := NewPiece(position, color, &queenMoves)
 	if err != nil {
 		return nil, err
 	}

@@ -6,7 +6,7 @@ import (
 
 // MoveFunc is a function that takes a Position, Color, and Board and returns the new Position after completing the
 // move. If the move is not possible, the function will return the original Position.
-type MoveFunc func(Position, Color, Board) Position
+type MoveFunc func(Position, Color, *Board) Position
 
 // MoveForward returns a slice of MoveFuncs that move the piece forward by the given number of steps.
 func MoveForward(steps int) []MoveFunc {
@@ -14,7 +14,7 @@ func MoveForward(steps int) []MoveFunc {
 	var out = make([]MoveFunc, steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board Board) Position {
+		out[i] = func(position Position, color Color, board *Board) Position {
 			newPosition := position
 			if color == White {
 				// If the color is White, move the piece up by one rank.
@@ -44,7 +44,7 @@ func MoveBackward(steps int) []MoveFunc {
 	var out = make([]MoveFunc, steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board Board) Position {
+		out[i] = func(position Position, color Color, board *Board) Position {
 			newPosition := position
 			if color == White {
 				// If the color is White, move the piece down by one rank.
@@ -74,7 +74,7 @@ func MoveLeft(steps int) []MoveFunc {
 	var out = make([]MoveFunc, steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board Board) Position {
+		out[i] = func(position Position, color Color, board *Board) Position {
 			newPosition := position
 			if color == White {
 				// If the color is White, move the piece to the left by one file.
@@ -104,7 +104,7 @@ func MoveRight(steps int) []MoveFunc {
 	var out = make([]MoveFunc, steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board Board) Position {
+		out[i] = func(position Position, color Color, board *Board) Position {
 			newPosition := position
 			if color == White {
 				// If the color is White, move the piece to the right by one file.
@@ -134,7 +134,7 @@ func MoveForwardLeft(steps int) []MoveFunc {
 	var out = make([]MoveFunc, steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board Board) Position {
+		out[i] = func(position Position, color Color, board *Board) Position {
 			newPosition := position
 			if color == White {
 				// If the color is White, move the piece up and to the left by one rank and file.
@@ -164,7 +164,7 @@ func MoveForwardRight(steps int) []MoveFunc {
 	var out = make([]MoveFunc, steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board Board) Position {
+		out[i] = func(position Position, color Color, board *Board) Position {
 			newPosition := position
 			if color == White {
 				// If the color is White, move the piece up and to the right by one rank and file.
@@ -194,7 +194,7 @@ func MoveBackwardLeft(steps int) []MoveFunc {
 	var out = make([]MoveFunc, steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board Board) Position {
+		out[i] = func(position Position, color Color, board *Board) Position {
 			newPosition := position
 			if color == White {
 				// If the color is White, move the piece down and to the left by one rank and file.
@@ -224,7 +224,7 @@ func MoveBackwardRight(steps int) []MoveFunc {
 	var out = make([]MoveFunc, steps)
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
-		out[i] = func(position Position, color Color, board Board) Position {
+		out[i] = func(position Position, color Color, board *Board) Position {
 			newPosition := position
 			if color == White {
 				// If the color is White, move the piece down and to the right by one rank and file.
@@ -250,10 +250,10 @@ func MoveBackwardRight(steps int) []MoveFunc {
 
 // Condition is a function that takes a Position, Color, and Board and returns a boolean value indicating if the
 // condition is satisfied or not.
-type Condition func(Position, Color, Board) bool
+type Condition func(Position, Color, *Board) bool
 
 // ConditionTrue is a Condition that always returns true.
-func ConditionTrue(_ Position, _ Color, _ Board) bool {
+func ConditionTrue(_ Position, _ Color, _ *Board) bool {
 	return true
 }
 
@@ -268,9 +268,9 @@ type Move struct {
 type Moves []Move
 
 // PossiblePositions returns a slice of Position that the piece can move to based on the given board.
-func (m Moves) PossiblePositions(piece Piece, board Board) []Position {
+func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 	// Create a slice of Position to store the possible positions.
-	var positions []Position
+	var positions = make([]Position, 0, 32)
 	// Loop through the moves for the piece.
 	for _, move := range m {
 		// Get the position and color of the piece.
@@ -280,14 +280,14 @@ func (m Moves) PossiblePositions(piece Piece, board Board) []Position {
 			// Loop through the MoveFuncs for the move.
 			for idx, f := range move.Move {
 				// re-initialize the position and color for each iteration.
-				position, color = piece.Position(), piece.Color()
+				newPosition := position
 				// Apply the MoveFunc to the position for the given number of steps.
 				for i := 0; i < idx+1; i++ {
-					position = f(position, color, board)
+					newPosition = f(newPosition, color, board)
 				}
 				// If the position is valid and not already in the slice, add it to the slice.
-				if board.PositionIsEmpty(position) && board.PositionIsValid(position) && position != piece.Position() && !slices.Contains(positions, position) {
-					positions = append(positions, position)
+				if board.PositionIsEmpty(newPosition) && board.PositionIsValid(newPosition) && newPosition != position && !slices.Contains(positions, newPosition) {
+					positions = append(positions, newPosition)
 				}
 			}
 		}
