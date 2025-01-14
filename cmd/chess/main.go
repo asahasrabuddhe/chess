@@ -34,16 +34,16 @@ func main() {
 		if err != nil {
 			log.Fatalln(err)
 		}
-	//case "king":
-	//	piece, err = chess.NewKing(position)
-	//	if err != nil {
-	//		log.Fatalln(err)
-	//	}
-	//case "queen":
-	//	piece, err = chess.NewQueen(position)
-	//	if err != nil {
-	//		log.Fatalln(err)
-	//	}
+	case "king":
+		piece, err = chess.NewKing(position, chess.White)
+		if err != nil {
+			log.Fatalln(err)
+		}
+	case "queen":
+		piece, err = chess.NewQueen(position, chess.White)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	default:
 		log.Fatalln("Invalid piece type")
 	}
