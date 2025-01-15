@@ -1,7 +1,6 @@
 package chess
 
 import (
-	"slices"
 	"sync"
 )
 
@@ -309,7 +308,7 @@ func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 				}
 				// If the new position is not the same as the original position, and it is not already in the slice of
 				// possible positions, add it to the slice.
-				if newPosition != position && !slices.Contains(positions, newPosition) {
+				if newPosition != position && !sliceContains(positions, newPosition) {
 					positions = append(positions, newPosition)
 				}
 			}
@@ -317,4 +316,13 @@ func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 	}
 	// Return the slice of possible positions.
 	return positions
+}
+
+func sliceContains(slice []Position, position Position) bool {
+	for _, p := range slice {
+		if p == position {
+			return true
+		}
+	}
+	return false
 }
