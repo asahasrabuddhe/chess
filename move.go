@@ -37,7 +37,7 @@ func MoveForward(steps int) []MoveFunc {
 					}
 				}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsEmpty(newPosition) {
+				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -80,7 +80,7 @@ func MoveBackward(steps int) []MoveFunc {
 					}
 				}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsEmpty(newPosition) {
+				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -123,7 +123,7 @@ func MoveLeft(steps int) []MoveFunc {
 					}
 				}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsEmpty(newPosition) {
+				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -166,7 +166,7 @@ func MoveRight(steps int) []MoveFunc {
 					}
 				}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsEmpty(newPosition) {
+				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -209,7 +209,7 @@ func MoveForwardLeft(steps int) []MoveFunc {
 					}
 				}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsEmpty(newPosition) {
+				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -252,7 +252,7 @@ func MoveForwardRight(steps int) []MoveFunc {
 					}
 				}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsEmpty(newPosition) {
+				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -295,7 +295,7 @@ func MoveBackwardLeft(steps int) []MoveFunc {
 					}
 				}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsEmpty(newPosition) {
+				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -338,7 +338,7 @@ func MoveBackwardRight(steps int) []MoveFunc {
 					}
 				}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsEmpty(newPosition) {
+				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -390,8 +390,9 @@ func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 				for i := 0; i < idx+1; i++ {
 					newPosition = f(newPosition, color, board)
 				}
-				// If the position is valid and not already in the slice, add it to the slice.
-				if board.PositionIsEmpty(newPosition) && board.PositionIsValid(newPosition) && newPosition != position && !slices.Contains(positions, newPosition) {
+				// If the new position is not the same as the original position, and it is not already in the slice of
+				// possible positions, add it to the slice.
+				if newPosition != position && !slices.Contains(positions, newPosition) {
 					positions = append(positions, newPosition)
 				}
 			}
