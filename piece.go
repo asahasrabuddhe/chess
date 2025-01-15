@@ -3,8 +3,8 @@ package chess
 type Color int
 
 const (
-	Black Color = -1
-	White Color = 1
+	White Color = -1
+	Black Color = 1
 )
 
 // Piece represents a chess piece.

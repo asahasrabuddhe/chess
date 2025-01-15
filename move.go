@@ -24,18 +24,8 @@ func MoveForward(steps int) []MoveFunc {
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color, board *Board) Position {
-				newPosition := position
-				if color == White {
-					// If the color is White, move the piece up by one rank.
-					if position.Rank-1 >= 0 {
-						newPosition = Position{Rank: position.Rank - 1, File: position.File}
-					}
-				} else {
-					// If the color is Black, move the piece down by one rank.
-					if position.Rank+1 < 8 {
-						newPosition = Position{Rank: position.Rank + 1, File: position.File}
-					}
-				}
+				// Calculate the new position based on the color of the piece.
+				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: position.File}
 				// If the new position is not empty, return the original position.
 				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
@@ -67,18 +57,8 @@ func MoveBackward(steps int) []MoveFunc {
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color, board *Board) Position {
-				newPosition := position
-				if color == White {
-					// If the color is White, move the piece down by one rank.
-					if position.Rank+1 < 8 {
-						newPosition = Position{Rank: position.Rank + 1, File: position.File}
-					}
-				} else {
-					// If the color is Black, move the piece up by one rank.
-					if position.Rank-1 >= 0 {
-						newPosition = Position{Rank: position.Rank - 1, File: position.File}
-					}
-				}
+				// Calculate the new position based on the color of the piece.
+				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: position.File}
 				// If the new position is not empty, return the original position.
 				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
@@ -110,18 +90,8 @@ func MoveLeft(steps int) []MoveFunc {
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color, board *Board) Position {
-				newPosition := position
-				if color == White {
-					// If the color is White, move the piece to the left by one file.
-					if position.File-1 >= 0 {
-						newPosition = Position{Rank: position.Rank, File: position.File - 1}
-					}
-				} else {
-					// If the color is Black, move the piece to the right by one file.
-					if position.File+1 < 8 {
-						newPosition = Position{Rank: position.Rank, File: position.File + 1}
-					}
-				}
+				// Calculate the new position based on the color of the piece.
+				newPosition := Position{Rank: position.Rank, File: rune(int(position.File) + (1 * int(color)))}
 				// If the new position is not empty, return the original position.
 				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
@@ -153,18 +123,8 @@ func MoveRight(steps int) []MoveFunc {
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color, board *Board) Position {
-				newPosition := position
-				if color == White {
-					// If the color is White, move the piece to the right by one file.
-					if position.File+1 < 8 {
-						newPosition = Position{Rank: position.Rank, File: position.File + 1}
-					}
-				} else {
-					// If the color is Black, move the piece to the left by one file.
-					if position.File-1 >= 0 {
-						newPosition = Position{Rank: position.Rank, File: position.File - 1}
-					}
-				}
+				// Calculate the new position based on the color of the piece.
+				newPosition := Position{Rank: position.Rank, File: rune(int(position.File) - (1 * int(color)))}
 				// If the new position is not empty, return the original position.
 				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
@@ -196,18 +156,8 @@ func MoveForwardLeft(steps int) []MoveFunc {
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color, board *Board) Position {
-				newPosition := position
-				if color == White {
-					// If the color is White, move the piece up and to the left by one rank and file.
-					if position.Rank-1 >= 0 && position.File-1 >= 0 {
-						newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
-					}
-				} else {
-					// If the color is Black, move the piece down and to the right by one rank and file.
-					if position.Rank+1 < 8 && position.File+1 < 8 {
-						newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
-					}
-				}
+				// Calculate the new position based on the color of the piece.
+				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: rune(int(position.File) + (1 * int(color)))}
 				// If the new position is not empty, return the original position.
 				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
@@ -239,18 +189,7 @@ func MoveForwardRight(steps int) []MoveFunc {
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color, board *Board) Position {
-				newPosition := position
-				if color == White {
-					// If the color is White, move the piece up and to the right by one rank and file.
-					if position.Rank-1 >= 0 && position.File+1 < 8 {
-						newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
-					}
-				} else {
-					// If the color is Black, move the piece down and to the left by one rank and file.
-					if position.Rank+1 < 8 && position.File-1 >= 0 {
-						newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
-					}
-				}
+				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: rune(int(position.File) - (1 * int(color)))}
 				// If the new position is not empty, return the original position.
 				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
@@ -282,18 +221,7 @@ func MoveBackwardLeft(steps int) []MoveFunc {
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color, board *Board) Position {
-				newPosition := position
-				if color == White {
-					// If the color is White, move the piece down and to the left by one rank and file.
-					if position.Rank+1 < 8 && position.File-1 >= 0 {
-						newPosition = Position{Rank: position.Rank + 1, File: position.File - 1}
-					}
-				} else {
-					// If the color is Black, move the piece up and to the right by one rank and file.
-					if position.Rank-1 >= 0 && position.File+1 < 8 {
-						newPosition = Position{Rank: position.Rank - 1, File: position.File + 1}
-					}
-				}
+				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: rune(int(position.File) + (1 * int(color)))}
 				// If the new position is not empty, return the original position.
 				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
@@ -325,18 +253,7 @@ func MoveBackwardRight(steps int) []MoveFunc {
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color, board *Board) Position {
-				newPosition := position
-				if color == White {
-					// If the color is White, move the piece down and to the right by one rank and file.
-					if position.Rank+1 < 8 && position.File+1 < 8 {
-						newPosition = Position{Rank: position.Rank + 1, File: position.File + 1}
-					}
-				} else {
-					// If the color is Black, move the piece up and to the left by one rank and file.
-					if position.Rank-1 >= 0 && position.File-1 >= 0 {
-						newPosition = Position{Rank: position.Rank - 1, File: position.File - 1}
-					}
-				}
+				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: rune(int(position.File) - (1 * int(color)))}
 				// If the new position is not empty, return the original position.
 				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
 					return position
