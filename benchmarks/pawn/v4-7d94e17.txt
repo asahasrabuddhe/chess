@@ -1,0 +1,16 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/asahasrabuddhe/chess
+cpu: Apple M1 Max
+BenchmarkPawn_Moves-12          38101564                32.23 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          38055268                31.30 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          37667985                32.94 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          37699344                31.79 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          37145138                31.98 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          37058816                31.51 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          37582210                35.84 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          37167907                32.66 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          37802914                31.50 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          38502826                31.47 ns/op           64 B/op          1 allocs/op
+PASS
+ok      github.com/asahasrabuddhe/chess 13.588s
