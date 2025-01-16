@@ -26,7 +26,7 @@ func MoveForward(steps int) []MoveFunc {
 				// Calculate the new position based on the color of the piece.
 				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: position.File}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -59,7 +59,7 @@ func MoveBackward(steps int) []MoveFunc {
 				// Calculate the new position based on the color of the piece.
 				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: position.File}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -92,7 +92,7 @@ func MoveLeft(steps int) []MoveFunc {
 				// Calculate the new position based on the color of the piece.
 				newPosition := Position{Rank: position.Rank, File: rune(int(position.File) + (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -125,7 +125,7 @@ func MoveRight(steps int) []MoveFunc {
 				// Calculate the new position based on the color of the piece.
 				newPosition := Position{Rank: position.Rank, File: rune(int(position.File) - (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -158,7 +158,7 @@ func MoveForwardLeft(steps int) []MoveFunc {
 				// Calculate the new position based on the color of the piece.
 				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: rune(int(position.File) + (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -190,7 +190,7 @@ func MoveForwardRight(steps int) []MoveFunc {
 			out[index] = func(position Position, color Color, board *Board) Position {
 				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: rune(int(position.File) - (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -222,7 +222,7 @@ func MoveBackwardLeft(steps int) []MoveFunc {
 			out[index] = func(position Position, color Color, board *Board) Position {
 				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: rune(int(position.File) + (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.
@@ -254,7 +254,7 @@ func MoveBackwardRight(steps int) []MoveFunc {
 			out[index] = func(position Position, color Color, board *Board) Position {
 				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: rune(int(position.File) - (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !board.PositionIsValid(newPosition) || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
 					return position
 				}
 				// Return the new position.

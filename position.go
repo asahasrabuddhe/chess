@@ -35,3 +35,7 @@ func ParsePosition(position string) (Position, error) {
 func (p Position) String() string {
 	return string('A'+p.File) + string('8'-rune(p.Rank))
 }
+
+func (p Position) isValid() bool {
+	return p.File >= 0 && p.File < 8 && p.Rank >= 0 && p.Rank < 8
+}
