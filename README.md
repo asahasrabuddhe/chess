@@ -3,13 +3,13 @@
 ## Installation
 
 ```bash
-go install github.com/asahasrabuddhe/chess/cmd/chess@v0.0.3
+go install github.com/asahasrabuddhe/chess/cmd/chess@v0.0.4
 ```
 
 ## Usage
 ```bash
-chess <piece type> <position>
-chess Pawn E2
+chess "<piece type>, <position>"
+chess "Pawn, E2"
 ```
 
 Valid piece types: Pawn, King, Queen
