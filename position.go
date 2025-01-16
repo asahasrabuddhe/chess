@@ -33,7 +33,13 @@ func ParsePosition(position string) (Position, error) {
 
 // String returns the string representation of a Position.
 func (p Position) String() string {
-	return string('A'+p.File) + string('8'-rune(p.Rank))
+	buf := []byte{
+		// Add the column index to the ASCII value of 'A' to get the column character.
+		byte('A' + p.File),
+		// Subtract the row index from the ASCII value of '8' to get the row character.
+		byte('8' - p.Rank),
+	}
+	return string(buf)
 }
 
 func (p Position) isValid() bool {
