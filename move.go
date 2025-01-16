@@ -299,6 +299,7 @@ func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 		// Check if the condition for the move is satisfied.
 		if move.Condition(position, color, board) {
 			// Loop through the MoveFuncs for the move.
+			var lastPosition Position
 			for idx, f := range move.Move {
 				// re-initialize the position and color for each iteration.
 				newPosition := position
@@ -306,23 +307,16 @@ func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 				for i := 0; i < idx+1; i++ {
 					newPosition = f(newPosition, color, board)
 				}
-				// If the new position is not the same as the original position, and it is not already in the slice of
-				// possible positions, add it to the slice.
-				if newPosition != position && !sliceContains(positions, newPosition) {
+				if newPosition == lastPosition {
+					break
+				}
+				if newPosition != position {
 					positions = append(positions, newPosition)
+					lastPosition = newPosition
 				}
 			}
 		}
 	}
 	// Return the slice of possible positions.
 	return positions
-}
-
-func sliceContains(slice []Position, position Position) bool {
-	for _, p := range slice {
-		if p == position {
-			return true
-		}
-	}
-	return false
 }
