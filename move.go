@@ -291,7 +291,8 @@ type Moves []Move
 // PossiblePositions returns a slice of Position that the piece can move to based on the given board.
 func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 	// Create a slice of Position to store the possible positions.
-	var positions = make([]Position, 0, piece.MaxPossibleMoves())
+	var positions = make([]Position, piece.MaxPossibleMoves())
+	var positionIndex int
 	// Loop through the moves for the piece.
 	for _, move := range m {
 		// Get the position and color of the piece.
@@ -311,12 +312,12 @@ func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 					break
 				}
 				if newPosition != position {
-					positions = append(positions, newPosition)
-					lastPosition = newPosition
+					positions[positionIndex], lastPosition = newPosition, newPosition
+					positionIndex++
 				}
 			}
 		}
 	}
 	// Return the slice of possible positions.
-	return positions
+	return positions[:positionIndex]
 }
