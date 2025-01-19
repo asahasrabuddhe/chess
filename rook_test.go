@@ -175,9 +175,9 @@ func BenchmarkRook_Moves(b *testing.B) {
 	var possiblePositions []Position
 	var board = EmptyBoard()
 
+	rook, _ := NewRook("D5", White)
 	for i := 0; i < b.N; i++ {
-		r, _ := NewRook("D5", White)
-		r.PossiblePositions(board)
+		rook.PossiblePositions(board)
 	}
 
 	_, _ = fmt.Fprintln(io.Discard, possiblePositions)
