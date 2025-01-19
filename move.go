@@ -321,3 +321,15 @@ func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 	// Return the slice of possible positions.
 	return positions[:positionIndex]
 }
+
+func CompoundMove(moves ...[]MoveFunc) []MoveFunc {
+	var length int
+	for _, m := range moves {
+		length += len(m)
+	}
+	var out = make([]MoveFunc, 0, length)
+	for _, m := range moves {
+		out = append(out, m...)
+	}
+	return out
+}
