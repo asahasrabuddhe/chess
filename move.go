@@ -322,45 +322,47 @@ func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 		// Get the position and color of the piece.
 		position, color := piece.Position(), piece.Color()
 		// Check if the condition for the Move is satisfied.
-		if move.Condition(position, color, board) {
-			if move.Type == Simple {
-				// Loop through the MoveFuncs for the Move.
-				var lastPosition Position
-				for idx, fn := range move.Move {
-					// re-initialize the position and color for each iteration.
-					newPosition := position
-					// Apply the MoveFunc to the position for the given number of steps.
-					for i := 0; i < idx+1; i++ {
-						newPosition = fn(newPosition, color)
-					}
-					if newPosition == lastPosition {
-						break
-					}
-					if newPosition != position || !board.PositionIsEmpty(newPosition) {
-						positions[positionIndex], lastPosition = newPosition, newPosition
-						positionIndex++
-					}
-				}
-			} else {
+		if !move.Condition(position, color, board) {
+			continue
+		}
+		if move.Type == Simple {
+			// Loop through the MoveFuncs for the Move.
+			var lastPosition Position
+			for idx, fn := range move.Move {
 				// re-initialize the position and color for each iteration.
-				lastPosition, newPosition := position, position
-				// Loop through the MoveFuncs for the Move.
-				for _, fn := range move.Move {
-					// Apply the MoveFunc to the position.
+				newPosition := position
+				// Apply the MoveFunc to the position for the given number of steps.
+				for i := 0; i < idx+1; i++ {
 					newPosition = fn(newPosition, color)
-					if newPosition == lastPosition {
-						newPosition = position
-						break
-					}
-					lastPosition = newPosition
 				}
-				// If the new position is not the original position, add it to the slice of possible positions.
+				if newPosition == lastPosition {
+					break
+				}
 				if newPosition != position || !board.PositionIsEmpty(newPosition) {
-					positions[positionIndex] = newPosition
+					positions[positionIndex], lastPosition = newPosition, newPosition
 					positionIndex++
 				}
 			}
+			continue
 		}
+		// re-initialize the position and color for each iteration.
+		lastPosition, newPosition := position, position
+		// Loop through the MoveFuncs for the Move.
+		for _, fn := range move.Move {
+			// Apply the MoveFunc to the position.
+			newPosition = fn(newPosition, color)
+			if newPosition == lastPosition {
+				newPosition = position
+				break
+			}
+			lastPosition = newPosition
+		}
+		// If the new position is not the original position, add it to the slice of possible positions.
+		if newPosition != position || !board.PositionIsEmpty(newPosition) {
+			positions[positionIndex] = newPosition
+			positionIndex++
+		}
+
 	}
 	// Return the slice of possible positions.
 	return positions[:positionIndex]
