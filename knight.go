@@ -10,14 +10,14 @@ type Knight struct {
 }
 
 var knightMoves = Moves{
-	{Condition: ConditionTrue, Move: CompoundMove(MoveForward(2), MoveRight(1))},
-	{Condition: ConditionTrue, Move: CompoundMove(MoveForward(2), MoveLeft(1))},
-	{Condition: ConditionTrue, Move: CompoundMove(MoveBackward(2), MoveRight(1))},
-	{Condition: ConditionTrue, Move: CompoundMove(MoveBackward(2), MoveLeft(1))},
-	{Condition: ConditionTrue, Move: CompoundMove(MoveLeft(2), MoveForward(1))},
-	{Condition: ConditionTrue, Move: CompoundMove(MoveLeft(2), MoveBackward(1))},
-	{Condition: ConditionTrue, Move: CompoundMove(MoveRight(2), MoveForward(1))},
-	{Condition: ConditionTrue, Move: CompoundMove(MoveRight(2), MoveBackward(1))},
+	CompoundMove(ConditionTrue, MoveForward(2), MoveRight(1)),
+	CompoundMove(ConditionTrue, MoveForward(2), MoveLeft(1)),
+	CompoundMove(ConditionTrue, MoveBackward(2), MoveRight(1)),
+	CompoundMove(ConditionTrue, MoveBackward(2), MoveLeft(1)),
+	CompoundMove(ConditionTrue, MoveLeft(2), MoveForward(1)),
+	CompoundMove(ConditionTrue, MoveLeft(2), MoveBackward(1)),
+	CompoundMove(ConditionTrue, MoveRight(2), MoveForward(1)),
+	CompoundMove(ConditionTrue, MoveRight(2), MoveBackward(1)),
 }
 
 // NewKnight creates a new Knight with the given position.

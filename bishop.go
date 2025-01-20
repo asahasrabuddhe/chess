@@ -10,10 +10,10 @@ type Bishop struct {
 }
 
 var bishopMoves = Moves{
-	{Condition: ConditionTrue, Move: MoveForwardLeft(8)},
-	{Condition: ConditionTrue, Move: MoveForwardRight(8)},
-	{Condition: ConditionTrue, Move: MoveBackwardLeft(8)},
-	{Condition: ConditionTrue, Move: MoveBackwardRight(8)},
+	SimpleMove(ConditionTrue, MoveForwardLeft(8)),
+	SimpleMove(ConditionTrue, MoveForwardRight(8)),
+	SimpleMove(ConditionTrue, MoveBackwardLeft(8)),
+	SimpleMove(ConditionTrue, MoveBackwardRight(8)),
 }
 
 // NewBishop creates a new Bishop with the given position.

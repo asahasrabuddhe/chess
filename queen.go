@@ -10,14 +10,14 @@ type Queen struct {
 }
 
 var queenMoves = Moves{
-	{Condition: ConditionTrue, Move: MoveForward(8)},
-	{Condition: ConditionTrue, Move: MoveBackward(8)},
-	{Condition: ConditionTrue, Move: MoveLeft(8)},
-	{Condition: ConditionTrue, Move: MoveRight(8)},
-	{Condition: ConditionTrue, Move: MoveForwardLeft(8)},
-	{Condition: ConditionTrue, Move: MoveForwardRight(8)},
-	{Condition: ConditionTrue, Move: MoveBackwardLeft(8)},
-	{Condition: ConditionTrue, Move: MoveBackwardRight(8)},
+	SimpleMove(ConditionTrue, MoveForward(8)),
+	SimpleMove(ConditionTrue, MoveBackward(8)),
+	SimpleMove(ConditionTrue, MoveLeft(8)),
+	SimpleMove(ConditionTrue, MoveRight(8)),
+	SimpleMove(ConditionTrue, MoveForwardLeft(8)),
+	SimpleMove(ConditionTrue, MoveForwardRight(8)),
+	SimpleMove(ConditionTrue, MoveBackwardLeft(8)),
+	SimpleMove(ConditionTrue, MoveBackwardRight(8)),
 }
 
 // NewQueen creates a new Queen with the given position.

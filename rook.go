@@ -10,10 +10,10 @@ type Rook struct {
 }
 
 var rookMoves = Moves{
-	{Condition: ConditionTrue, Move: MoveForward(8)},
-	{Condition: ConditionTrue, Move: MoveBackward(8)},
-	{Condition: ConditionTrue, Move: MoveLeft(8)},
-	{Condition: ConditionTrue, Move: MoveRight(8)},
+	SimpleMove(ConditionTrue, MoveForward(8)),
+	SimpleMove(ConditionTrue, MoveBackward(8)),
+	SimpleMove(ConditionTrue, MoveLeft(8)),
+	SimpleMove(ConditionTrue, MoveRight(8)),
 }
 
 // NewRook creates a new Rook with the given position.
