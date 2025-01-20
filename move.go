@@ -4,15 +4,15 @@ import (
 	"sync"
 )
 
-// MoveFunc is a function that takes a Position, Color, and Board and returns the new Position after completing the
-// Move. If the Move is not possible, the function will return the original Position.
+// MoveFunc is a function that takes a Position and Color and returns the new Position after completing the Move. If
+// the Move is not possible, the function will return the original Position.
 type MoveFunc func(Position, Color) Position
 
 // MoveForward returns a slice of MoveFunc that Move the piece forward by the given number of steps.
 func MoveForward(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
-		// Create a slice of MoveFuncs with the given number of steps.
+		// Create a slice of MoveFunc with the given number of steps.
 		out = make([]MoveFunc, steps)
 		// Create a WaitGroup to wait for all the goroutines to finish.
 		wg sync.WaitGroup
@@ -45,14 +45,14 @@ func MoveForward(steps int) []MoveFunc {
 func MoveBackward(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
-		// Create a slice of MoveFuncs with the given number of steps.
+		// Create a slice of MoveFunc with the given number of steps.
 		out = make([]MoveFunc, steps)
 		// Create a WaitGroup to wait for all the goroutines to finish.
 		wg sync.WaitGroup
 	)
 	// Add the number of steps to the WaitGroup.
 	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
+	// Loop through the slice and create a MoveFunc that moves the piece backward by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color) Position {
@@ -78,14 +78,14 @@ func MoveBackward(steps int) []MoveFunc {
 func MoveLeft(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
-		// Create a slice of MoveFuncs with the given number of steps.
+		// Create a slice of MoveFunc with the given number of steps.
 		out = make([]MoveFunc, steps)
 		// Create a WaitGroup to wait for all the goroutines to finish.
 		wg sync.WaitGroup
 	)
 	// Add the number of steps to the WaitGroup.
 	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
+	// Loop through the slice and create a MoveFunc that moves the piece left by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color) Position {
@@ -111,14 +111,14 @@ func MoveLeft(steps int) []MoveFunc {
 func MoveRight(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
-		// Create a slice of MoveFuncs with the given number of steps.
+		// Create a slice of MoveFunc with the given number of steps.
 		out = make([]MoveFunc, steps)
 		// Create a WaitGroup to wait for all the goroutines to finish.
 		wg sync.WaitGroup
 	)
 	// Add the number of steps to the WaitGroup.
 	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
+	// Loop through the slice and create a MoveFunc that moves the piece right by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color) Position {
@@ -140,18 +140,18 @@ func MoveRight(steps int) []MoveFunc {
 	return out
 }
 
-// MoveForwardLeft returns a slice of MoveFunc that Move the piece forward and to the left by the given number of steps.
+// MoveForwardLeft returns a slice of MoveFunc that Move the piece forward-left by the given number of steps.
 func MoveForwardLeft(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
-		// Create a slice of MoveFuncs with the given number of steps.
+		// Create a slice of MoveFunc with the given number of steps.
 		out = make([]MoveFunc, steps)
 		// Create a WaitGroup to wait for all the goroutines to finish.
 		wg sync.WaitGroup
 	)
 	// Add the number of steps to the WaitGroup.
 	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
+	// Loop through the slice and create a MoveFunc that moves the piece forward-left by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color) Position {
@@ -173,18 +173,18 @@ func MoveForwardLeft(steps int) []MoveFunc {
 	return out
 }
 
-// MoveForwardRight returns a slice of MoveFunc that Move the piece forward and to the right by the given number of steps.
+// MoveForwardRight returns a slice of MoveFunc that Move the piece forward-right by the given number of steps.
 func MoveForwardRight(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
-		// Create a slice of MoveFuncs with the given number of steps.
+		// Create a slice of MoveFunc with the given number of steps.
 		out = make([]MoveFunc, steps)
 		// Create a WaitGroup to wait for all the goroutines to finish.
 		wg sync.WaitGroup
 	)
 	// Add the number of steps to the WaitGroup.
 	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
+	// Loop through the slice and create a MoveFunc that moves the piece forward-right by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color) Position {
@@ -205,18 +205,18 @@ func MoveForwardRight(steps int) []MoveFunc {
 	return out
 }
 
-// MoveBackwardLeft returns a slice of MoveFunc that Move the piece backward and to the left by the given number of steps.
+// MoveBackwardLeft returns a slice of MoveFunc that Move the piece backward-left by the given number of steps.
 func MoveBackwardLeft(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
-		// Create a slice of MoveFuncs with the given number of steps.
+		// Create a slice of MoveFunc with the given number of steps.
 		out = make([]MoveFunc, steps)
 		// Create a WaitGroup to wait for all the goroutines to finish.
 		wg sync.WaitGroup
 	)
 	// Add the number of steps to the WaitGroup.
 	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
+	// Loop through the slice and create a MoveFunc that moves the piece backward-left by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color) Position {
@@ -237,18 +237,18 @@ func MoveBackwardLeft(steps int) []MoveFunc {
 	return out
 }
 
-// MoveBackwardRight returns a slice of MoveFunc that Move the piece backward and to the right by the given number of steps.
+// MoveBackwardRight returns a slice of MoveFunc that Move the piece backward-right by the given number of steps.
 func MoveBackwardRight(steps int) []MoveFunc {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
-		// Create a slice of MoveFuncs with the given number of steps.
+		// Create a slice of MoveFunc with the given number of steps.
 		out = make([]MoveFunc, steps)
 		// Create a WaitGroup to wait for all the goroutines to finish.
 		wg sync.WaitGroup
 	)
 	// Add the number of steps to the WaitGroup.
 	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
+	// Loop through the slice and create a MoveFunc that moves the piece backward-right by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
 			out[index] = func(position Position, color Color) Position {
@@ -285,7 +285,7 @@ const (
 	Compound
 )
 
-// Move represents a Move that a piece can make. It contains a Condition and a slice of MoveFuncs that represent the
+// Move represents a move that a piece can make. It contains a Condition and a slice of MoveFuncs that represent the
 // Move. The Condition is used to determine if the Move is possible or not.
 type Move struct {
 	Type      MoveType
@@ -293,10 +293,12 @@ type Move struct {
 	Move      []MoveFunc
 }
 
+// SimpleMove returns a Move with the given Condition and MoveFuncs.
 func SimpleMove(c Condition, m []MoveFunc) Move {
 	return Move{Type: Simple, Condition: c, Move: m}
 }
 
+// CompoundMove returns a Move with the given Condition and MoveFuncs.
 func CompoundMove(c Condition, mf ...[]MoveFunc) Move {
 	var length int
 	for _, m := range mf {
