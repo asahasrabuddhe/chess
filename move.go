@@ -6,267 +6,75 @@ import (
 
 // MoveFunc is a function that takes a Position and Color and returns the new Position after completing the Move. If
 // the Move is not possible, the function will return the original Position.
-type MoveFunc func(Position, Color) Position
+type MoveFunc func(position Position, color Color) Position
 
-// MoveForward returns a slice of MoveFunc that Move the piece forward by the given number of steps.
+// generateMoves generates a slice of MoveFunc that can be used to move a piece in a given direction represented by the
+// rankDelta and fileDelta. The number of steps denotes the number of steps the piece can take in that direction.
+func generateMoves(steps int, rankDelta, fileDelta int) []MoveFunc {
+	var (
+		out = make([]MoveFunc, steps)
+		wg  sync.WaitGroup
+	)
+	wg.Add(steps)
+
+	for i := 0; i < steps; i++ {
+		go func(index int) {
+			out[index] = func(position Position, color Color) Position {
+				newPosition := Position{
+					Rank: position.Rank + rankDelta*int(color),
+					File: rune(int(position.File) + fileDelta*int(color)),
+				}
+				if !newPosition.isValid() {
+					return position
+				}
+				return newPosition
+			}
+			wg.Done()
+		}(i)
+	}
+
+	wg.Wait()
+	return out
+}
+
+// MoveForward generates MoveFuncs to move a piece forward.
 func MoveForward(steps int) []MoveFunc {
-	// Create a slice of MoveFuncs with the given number of steps.
-	var (
-		// Create a slice of MoveFunc with the given number of steps.
-		out = make([]MoveFunc, steps)
-		// Create a WaitGroup to wait for all the goroutines to finish.
-		wg sync.WaitGroup
-	)
-	// Add the number of steps to the WaitGroup.
-	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
-	for i := 0; i < steps; i++ {
-		go func(index int) {
-			out[index] = func(position Position, color Color) Position {
-				// Calculate the new position based on the color of the piece.
-				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: position.File}
-				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() {
-					return position
-				}
-				// Return the new position.
-				return newPosition
-			}
-			// Signal that the goroutine has finished.
-			wg.Done()
-		}(i)
-	}
-	// Wait for all the goroutines to finish.
-	wg.Wait()
-	return out
+	return generateMoves(steps, 1, 0)
 }
 
-// MoveBackward returns a slice of MoveFunc that Move the piece backward by the given number of steps.
+// MoveBackward generates MoveFuncs to move a piece backward.
 func MoveBackward(steps int) []MoveFunc {
-	// Create a slice of MoveFuncs with the given number of steps.
-	var (
-		// Create a slice of MoveFunc with the given number of steps.
-		out = make([]MoveFunc, steps)
-		// Create a WaitGroup to wait for all the goroutines to finish.
-		wg sync.WaitGroup
-	)
-	// Add the number of steps to the WaitGroup.
-	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece backward by the given number of steps.
-	for i := 0; i < steps; i++ {
-		go func(index int) {
-			out[index] = func(position Position, color Color) Position {
-				// Calculate the new position based on the color of the piece.
-				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: position.File}
-				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() {
-					return position
-				}
-				// Return the new position.
-				return newPosition
-			}
-			// Signal that the goroutine has finished.
-			wg.Done()
-		}(i)
-	}
-	// Wait for all the goroutines to finish.
-	wg.Wait()
-	return out
+	return generateMoves(steps, -1, 0)
 }
 
-// MoveLeft returns a slice of MoveFunc that Move the piece to the left by the given number of steps.
+// MoveLeft generates MoveFuncs to move a piece left.
 func MoveLeft(steps int) []MoveFunc {
-	// Create a slice of MoveFuncs with the given number of steps.
-	var (
-		// Create a slice of MoveFunc with the given number of steps.
-		out = make([]MoveFunc, steps)
-		// Create a WaitGroup to wait for all the goroutines to finish.
-		wg sync.WaitGroup
-	)
-	// Add the number of steps to the WaitGroup.
-	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece left by the given number of steps.
-	for i := 0; i < steps; i++ {
-		go func(index int) {
-			out[index] = func(position Position, color Color) Position {
-				// Calculate the new position based on the color of the piece.
-				newPosition := Position{Rank: position.Rank, File: rune(int(position.File) + (1 * int(color)))}
-				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() {
-					return position
-				}
-				// Return the new position.
-				return newPosition
-			}
-			// Signal that the goroutine has finished.
-			wg.Done()
-		}(i)
-	}
-	// Wait for all the goroutines to finish.
-	wg.Wait()
-	return out
+	return generateMoves(steps, 0, 1)
 }
 
-// MoveRight returns a slice of MoveFunc that Move the piece to the right by the given number of steps.
+// MoveRight generates MoveFuncs to move a piece right.
 func MoveRight(steps int) []MoveFunc {
-	// Create a slice of MoveFuncs with the given number of steps.
-	var (
-		// Create a slice of MoveFunc with the given number of steps.
-		out = make([]MoveFunc, steps)
-		// Create a WaitGroup to wait for all the goroutines to finish.
-		wg sync.WaitGroup
-	)
-	// Add the number of steps to the WaitGroup.
-	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece right by the given number of steps.
-	for i := 0; i < steps; i++ {
-		go func(index int) {
-			out[index] = func(position Position, color Color) Position {
-				// Calculate the new position based on the color of the piece.
-				newPosition := Position{Rank: position.Rank, File: rune(int(position.File) - (1 * int(color)))}
-				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() {
-					return position
-				}
-				// Return the new position.
-				return newPosition
-			}
-			// Signal that the goroutine has finished.
-			wg.Done()
-		}(i)
-	}
-	// Wait for all the goroutines to finish.
-	wg.Wait()
-	return out
+	return generateMoves(steps, 0, -1)
 }
 
-// MoveForwardLeft returns a slice of MoveFunc that Move the piece forward-left by the given number of steps.
+// MoveForwardLeft generates MoveFuncs to move a piece forward-left.
 func MoveForwardLeft(steps int) []MoveFunc {
-	// Create a slice of MoveFuncs with the given number of steps.
-	var (
-		// Create a slice of MoveFunc with the given number of steps.
-		out = make([]MoveFunc, steps)
-		// Create a WaitGroup to wait for all the goroutines to finish.
-		wg sync.WaitGroup
-	)
-	// Add the number of steps to the WaitGroup.
-	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece forward-left by the given number of steps.
-	for i := 0; i < steps; i++ {
-		go func(index int) {
-			out[index] = func(position Position, color Color) Position {
-				// Calculate the new position based on the color of the piece.
-				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: rune(int(position.File) + (1 * int(color)))}
-				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() {
-					return position
-				}
-				// Return the new position.
-				return newPosition
-			}
-			// Signal that the goroutine has finished.
-			wg.Done()
-		}(i)
-	}
-	// Wait for all the goroutines to finish.
-	wg.Wait()
-	return out
+	return generateMoves(steps, 1, 1)
 }
 
-// MoveForwardRight returns a slice of MoveFunc that Move the piece forward-right by the given number of steps.
+// MoveForwardRight generates MoveFuncs to move a piece forward-right.
 func MoveForwardRight(steps int) []MoveFunc {
-	// Create a slice of MoveFuncs with the given number of steps.
-	var (
-		// Create a slice of MoveFunc with the given number of steps.
-		out = make([]MoveFunc, steps)
-		// Create a WaitGroup to wait for all the goroutines to finish.
-		wg sync.WaitGroup
-	)
-	// Add the number of steps to the WaitGroup.
-	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece forward-right by the given number of steps.
-	for i := 0; i < steps; i++ {
-		go func(index int) {
-			out[index] = func(position Position, color Color) Position {
-				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: rune(int(position.File) - (1 * int(color)))}
-				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() {
-					return position
-				}
-				// Return the new position.
-				return newPosition
-			}
-			// Signal that the goroutine has finished.
-			wg.Done()
-		}(i)
-	}
-	// Wait for all the goroutines to finish.
-	wg.Wait()
-	return out
+	return generateMoves(steps, 1, -1)
 }
 
-// MoveBackwardLeft returns a slice of MoveFunc that Move the piece backward-left by the given number of steps.
+// MoveBackwardLeft generates MoveFuncs to move a piece backward-left.
 func MoveBackwardLeft(steps int) []MoveFunc {
-	// Create a slice of MoveFuncs with the given number of steps.
-	var (
-		// Create a slice of MoveFunc with the given number of steps.
-		out = make([]MoveFunc, steps)
-		// Create a WaitGroup to wait for all the goroutines to finish.
-		wg sync.WaitGroup
-	)
-	// Add the number of steps to the WaitGroup.
-	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece backward-left by the given number of steps.
-	for i := 0; i < steps; i++ {
-		go func(index int) {
-			out[index] = func(position Position, color Color) Position {
-				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: rune(int(position.File) + (1 * int(color)))}
-				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() {
-					return position
-				}
-				// Return the new position.
-				return newPosition
-			}
-			// Signal that the goroutine has finished.
-			wg.Done()
-		}(i)
-	}
-	// Wait for all the goroutines to finish.
-	wg.Wait()
-	return out
+	return generateMoves(steps, -1, 1)
 }
 
-// MoveBackwardRight returns a slice of MoveFunc that Move the piece backward-right by the given number of steps.
+// MoveBackwardRight generates MoveFuncs to move a piece backward-right.
 func MoveBackwardRight(steps int) []MoveFunc {
-	// Create a slice of MoveFuncs with the given number of steps.
-	var (
-		// Create a slice of MoveFunc with the given number of steps.
-		out = make([]MoveFunc, steps)
-		// Create a WaitGroup to wait for all the goroutines to finish.
-		wg sync.WaitGroup
-	)
-	// Add the number of steps to the WaitGroup.
-	wg.Add(steps)
-	// Loop through the slice and create a MoveFunc that moves the piece backward-right by the given number of steps.
-	for i := 0; i < steps; i++ {
-		go func(index int) {
-			out[index] = func(position Position, color Color) Position {
-				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: rune(int(position.File) - (1 * int(color)))}
-				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() {
-					return position
-				}
-				// Return the new position.
-				return newPosition
-			}
-			// Signal that the goroutine has finished.
-			wg.Done()
-		}(i)
-	}
-	// Wait for all the goroutines to finish.
-	wg.Wait()
-	return out
+	return generateMoves(steps, -1, -1)
 }
 
 // Condition is a function that takes a Position, Color, and Board and returns a boolean value indicating if the
