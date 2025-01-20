@@ -10,16 +10,16 @@ type Pawn struct {
 }
 
 var pawnMoves = Moves{
-	SimpleMove(func(position Position, color Color, _ *Board) bool {
-		return (color == White && position.Rank == 6) || (color == Black && position.Rank == 1)
-	},
-		MoveForward(2),
-	),
-	SimpleMove(func(position Position, color Color, _ *Board) bool {
-		return (color == White && position.Rank != 6) || (color == Black && position.Rank != 1)
-	},
-		MoveForward(1),
-	),
+	SimpleMove(CanMoveTwoSquares, MoveForward(2)),
+	SimpleMove(CannotMoveTwoSquares, MoveForward(1)),
+}
+
+func CanMoveTwoSquares(position Position, color Color, _ *Board) bool {
+	return (color == White && position.Rank == 6) || (color == Black && position.Rank == 1)
+}
+
+func CannotMoveTwoSquares(position Position, color Color, _ *Board) bool {
+	return (color == White && position.Rank != 6) || (color == Black && position.Rank != 1)
 }
 
 // NewPawn creates a new Pawn with the given position and color.
