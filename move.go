@@ -6,10 +6,10 @@ import (
 
 // MoveFunc is a function that takes a Position, Color, and Board and returns the new Position after completing the
 // move. If the move is not possible, the function will return the original Position.
-type MoveFunc func(Position, Color, *Board) Position
+type MoveFunc func(Position, Color) Position
 
 // MoveForward returns a slice of MoveFuncs that move the piece forward by the given number of steps.
-func MoveForward(steps int) []MoveFunc {
+func MoveForward(steps int) MoveFuncs {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
 		// Create a slice of MoveFuncs with the given number of steps.
@@ -22,11 +22,11 @@ func MoveForward(steps int) []MoveFunc {
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
-			out[index] = func(position Position, color Color, board *Board) Position {
+			out[index] = func(position Position, color Color) Position {
 				// Calculate the new position based on the color of the piece.
 				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: position.File}
 				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() {
 					return position
 				}
 				// Return the new position.
@@ -38,11 +38,11 @@ func MoveForward(steps int) []MoveFunc {
 	}
 	// Wait for all the goroutines to finish.
 	wg.Wait()
-	return out
+	return MoveFuncs{Compound: false, Moves: out}
 }
 
 // MoveBackward returns a slice of MoveFuncs that move the piece backward by the given number of steps.
-func MoveBackward(steps int) []MoveFunc {
+func MoveBackward(steps int) MoveFuncs {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
 		// Create a slice of MoveFuncs with the given number of steps.
@@ -55,11 +55,11 @@ func MoveBackward(steps int) []MoveFunc {
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
-			out[index] = func(position Position, color Color, board *Board) Position {
+			out[index] = func(position Position, color Color) Position {
 				// Calculate the new position based on the color of the piece.
 				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: position.File}
 				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() {
 					return position
 				}
 				// Return the new position.
@@ -71,11 +71,11 @@ func MoveBackward(steps int) []MoveFunc {
 	}
 	// Wait for all the goroutines to finish.
 	wg.Wait()
-	return out
+	return MoveFuncs{Compound: false, Moves: out}
 }
 
 // MoveLeft returns a slice of MoveFuncs that move the piece to the left by the given number of steps.
-func MoveLeft(steps int) []MoveFunc {
+func MoveLeft(steps int) MoveFuncs {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
 		// Create a slice of MoveFuncs with the given number of steps.
@@ -88,11 +88,11 @@ func MoveLeft(steps int) []MoveFunc {
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
-			out[index] = func(position Position, color Color, board *Board) Position {
+			out[index] = func(position Position, color Color) Position {
 				// Calculate the new position based on the color of the piece.
 				newPosition := Position{Rank: position.Rank, File: rune(int(position.File) + (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() {
 					return position
 				}
 				// Return the new position.
@@ -104,11 +104,11 @@ func MoveLeft(steps int) []MoveFunc {
 	}
 	// Wait for all the goroutines to finish.
 	wg.Wait()
-	return out
+	return MoveFuncs{Compound: false, Moves: out}
 }
 
 // MoveRight returns a slice of MoveFuncs that move the piece to the right by the given number of steps.
-func MoveRight(steps int) []MoveFunc {
+func MoveRight(steps int) MoveFuncs {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
 		// Create a slice of MoveFuncs with the given number of steps.
@@ -121,11 +121,11 @@ func MoveRight(steps int) []MoveFunc {
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
-			out[index] = func(position Position, color Color, board *Board) Position {
+			out[index] = func(position Position, color Color) Position {
 				// Calculate the new position based on the color of the piece.
 				newPosition := Position{Rank: position.Rank, File: rune(int(position.File) - (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() {
 					return position
 				}
 				// Return the new position.
@@ -137,11 +137,11 @@ func MoveRight(steps int) []MoveFunc {
 	}
 	// Wait for all the goroutines to finish.
 	wg.Wait()
-	return out
+	return MoveFuncs{Compound: false, Moves: out}
 }
 
 // MoveForwardLeft returns a slice of MoveFuncs that move the piece forward and to the left by the given number of steps.
-func MoveForwardLeft(steps int) []MoveFunc {
+func MoveForwardLeft(steps int) MoveFuncs {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
 		// Create a slice of MoveFuncs with the given number of steps.
@@ -154,11 +154,11 @@ func MoveForwardLeft(steps int) []MoveFunc {
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
-			out[index] = func(position Position, color Color, board *Board) Position {
+			out[index] = func(position Position, color Color) Position {
 				// Calculate the new position based on the color of the piece.
 				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: rune(int(position.File) + (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() {
 					return position
 				}
 				// Return the new position.
@@ -170,11 +170,11 @@ func MoveForwardLeft(steps int) []MoveFunc {
 	}
 	// Wait for all the goroutines to finish.
 	wg.Wait()
-	return out
+	return MoveFuncs{Compound: false, Moves: out}
 }
 
 // MoveForwardRight returns a slice of MoveFuncs that move the piece forward and to the right by the given number of steps.
-func MoveForwardRight(steps int) []MoveFunc {
+func MoveForwardRight(steps int) MoveFuncs {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
 		// Create a slice of MoveFuncs with the given number of steps.
@@ -187,10 +187,10 @@ func MoveForwardRight(steps int) []MoveFunc {
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
-			out[index] = func(position Position, color Color, board *Board) Position {
+			out[index] = func(position Position, color Color) Position {
 				newPosition := Position{Rank: position.Rank + (1 * int(color)), File: rune(int(position.File) - (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() {
 					return position
 				}
 				// Return the new position.
@@ -202,11 +202,11 @@ func MoveForwardRight(steps int) []MoveFunc {
 	}
 	// Wait for all the goroutines to finish.
 	wg.Wait()
-	return out
+	return MoveFuncs{Compound: false, Moves: out}
 }
 
 // MoveBackwardLeft returns a slice of MoveFuncs that move the piece backward and to the left by the given number of steps.
-func MoveBackwardLeft(steps int) []MoveFunc {
+func MoveBackwardLeft(steps int) MoveFuncs {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
 		// Create a slice of MoveFuncs with the given number of steps.
@@ -219,10 +219,10 @@ func MoveBackwardLeft(steps int) []MoveFunc {
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
-			out[index] = func(position Position, color Color, board *Board) Position {
+			out[index] = func(position Position, color Color) Position {
 				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: rune(int(position.File) + (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() {
 					return position
 				}
 				// Return the new position.
@@ -234,11 +234,11 @@ func MoveBackwardLeft(steps int) []MoveFunc {
 	}
 	// Wait for all the goroutines to finish.
 	wg.Wait()
-	return out
+	return MoveFuncs{Compound: false, Moves: out}
 }
 
 // MoveBackwardRight returns a slice of MoveFuncs that move the piece backward and to the right by the given number of steps.
-func MoveBackwardRight(steps int) []MoveFunc {
+func MoveBackwardRight(steps int) MoveFuncs {
 	// Create a slice of MoveFuncs with the given number of steps.
 	var (
 		// Create a slice of MoveFuncs with the given number of steps.
@@ -251,10 +251,10 @@ func MoveBackwardRight(steps int) []MoveFunc {
 	// Loop through the slice and create a MoveFunc that moves the piece forward by the given number of steps.
 	for i := 0; i < steps; i++ {
 		go func(index int) {
-			out[index] = func(position Position, color Color, board *Board) Position {
+			out[index] = func(position Position, color Color) Position {
 				newPosition := Position{Rank: position.Rank - (1 * int(color)), File: rune(int(position.File) - (1 * int(color)))}
 				// If the new position is not empty, return the original position.
-				if !newPosition.isValid() || !board.PositionIsEmpty(newPosition) {
+				if !newPosition.isValid() {
 					return position
 				}
 				// Return the new position.
@@ -266,7 +266,7 @@ func MoveBackwardRight(steps int) []MoveFunc {
 	}
 	// Wait for all the goroutines to finish.
 	wg.Wait()
-	return out
+	return MoveFuncs{Compound: false, Moves: out}
 }
 
 // Condition is a function that takes a Position, Color, and Board and returns a boolean value indicating if the
@@ -282,7 +282,12 @@ func ConditionTrue(_ Position, _ Color, _ *Board) bool {
 // move. The Condition is used to determine if the move is possible or not.
 type Move struct {
 	Condition Condition
-	Move      []MoveFunc
+	Move      MoveFuncs
+}
+
+type MoveFuncs struct {
+	Compound bool
+	Moves    []MoveFunc
 }
 
 // Moves is a slice of Move.
@@ -299,20 +304,40 @@ func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 		position, color := piece.Position(), piece.Color()
 		// Check if the condition for the move is satisfied.
 		if move.Condition(position, color, board) {
-			// Loop through the MoveFuncs for the move.
-			var lastPosition Position
-			for idx, f := range move.Move {
+			if !move.Move.Compound {
+				// Loop through the MoveFuncs for the move.
+				var lastPosition Position
+				for idx, f := range move.Move.Moves {
+					// re-initialize the position and color for each iteration.
+					newPosition := position
+					// Apply the MoveFunc to the position for the given number of steps.
+					for i := 0; i < idx+1; i++ {
+						newPosition = f(newPosition, color)
+					}
+					if newPosition == lastPosition {
+						break
+					}
+					if newPosition != position || !board.PositionIsEmpty(newPosition) {
+						positions[positionIndex], lastPosition = newPosition, newPosition
+						positionIndex++
+					}
+				}
+			} else {
 				// re-initialize the position and color for each iteration.
-				newPosition := position
-				// Apply the MoveFunc to the position for the given number of steps.
-				for i := 0; i < idx+1; i++ {
-					newPosition = f(newPosition, color, board)
+				lastPosition, newPosition := position, position
+				// Loop through the MoveFuncs for the move.
+				for _, f := range move.Move.Moves {
+					// Apply the MoveFunc to the position.
+					newPosition = f(newPosition, color)
+					if newPosition == lastPosition {
+						newPosition = position
+						break
+					}
+					lastPosition = newPosition
 				}
-				if newPosition == lastPosition {
-					break
-				}
-				if newPosition != position {
-					positions[positionIndex], lastPosition = newPosition, newPosition
+				// If the new position is not the original position, add it to the slice of possible positions.
+				if newPosition != position || !board.PositionIsEmpty(newPosition) {
+					positions[positionIndex] = newPosition
 					positionIndex++
 				}
 			}
@@ -322,14 +347,14 @@ func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 	return positions[:positionIndex]
 }
 
-func CompoundMove(moves ...[]MoveFunc) []MoveFunc {
+func CompoundMove(moves ...MoveFuncs) MoveFuncs {
 	var length int
 	for _, m := range moves {
-		length += len(m)
+		length += len(m.Moves)
 	}
 	var out = make([]MoveFunc, 0, length)
 	for _, m := range moves {
-		out = append(out, m...)
+		out = append(out, m.Moves...)
 	}
-	return out
+	return MoveFuncs{Compound: true, Moves: out}
 }

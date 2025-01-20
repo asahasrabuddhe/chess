@@ -22,11 +22,12 @@ func main() {
 
 	var (
 		piece chess.Piece
-		b     chess.Board
+		b     *chess.Board
 		err   error
 	)
 	inputs := strings.Split(os.Args[1], ", ")
 	pieceType, position := strings.ToLower(inputs[0]), strings.ToUpper(inputs[1])
+	b = chess.EmptyBoard()
 
 	switch pieceType {
 	case "pawn":

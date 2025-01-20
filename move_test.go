@@ -9,35 +9,41 @@ import (
 
 func TestCompoundMove(t *testing.T) {
 	type args struct {
-		moves [][]MoveFunc
+		moves []MoveFuncs
 	}
 	tests := []struct {
 		name string
 		args args
-		want []MoveFunc
+		want MoveFuncs
 	}{
 		{
 			name: "CompoundMove 1",
 			args: args{
-				moves: [][]MoveFunc{
+				moves: []MoveFuncs{
 					MoveForward(2),
 					MoveRight(1),
 				},
 			},
-			want: append(MoveForward(2), MoveRight(1)...),
+			want: MoveFuncs{
+				Compound: true,
+				Moves:    append(MoveForward(2).Moves, MoveRight(1).Moves...),
+			},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := CompoundMove(tt.args.moves...)
-			if len(got) != len(tt.want) {
+			if got.Compound != tt.want.Compound {
 				t.Errorf("CompoundMove() got = %v, want = %v", got, tt.want)
 			}
-			for i, g := range got {
-				if reflect.TypeOf(g) != reflect.TypeOf(tt.want[i]) {
+			if len(got.Moves) != len(tt.want.Moves) {
+				t.Errorf("CompoundMove() got = %v, want = %v", got, tt.want)
+			}
+			for i, g := range got.Moves {
+				if reflect.TypeOf(g) != reflect.TypeOf(tt.want.Moves[i]) {
 					t.Errorf("CompoundMove() got = %v, want = %v", got, tt.want)
 				}
-				if reflect.ValueOf(g).Pointer() != reflect.ValueOf(tt.want[i]).Pointer() {
+				if reflect.ValueOf(g).Pointer() != reflect.ValueOf(tt.want.Moves[i]).Pointer() {
 					t.Errorf("CompoundMove() got = %v, want = %v", got, tt.want)
 				}
 			}
@@ -46,7 +52,7 @@ func TestCompoundMove(t *testing.T) {
 }
 
 func BenchmarkCompoundMove(b *testing.B) {
-	var moves []MoveFunc
+	var moves MoveFuncs
 	for i := 0; i < b.N; i++ {
 		moves = CompoundMove(MoveForward(2), MoveRight(1))
 	}
