@@ -1,6 +1,8 @@
 package chess
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Position represents a position on the chess board.
 type Position struct {

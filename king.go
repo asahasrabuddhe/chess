@@ -10,14 +10,14 @@ type King struct {
 }
 
 var kingMoves = Moves{
-	SimpleMove(ConditionTrue, MoveForward(1)),
-	SimpleMove(ConditionTrue, MoveBackward(1)),
-	SimpleMove(ConditionTrue, MoveLeft(1)),
-	SimpleMove(ConditionTrue, MoveRight(1)),
-	SimpleMove(ConditionTrue, MoveForwardLeft(1)),
-	SimpleMove(ConditionTrue, MoveForwardRight(1)),
-	SimpleMove(ConditionTrue, MoveBackwardLeft(1)),
-	SimpleMove(ConditionTrue, MoveBackwardRight(1)),
+	SimpleMove(MoveForward(1)),
+	SimpleMove(MoveBackward(1)),
+	SimpleMove(MoveLeft(1)),
+	SimpleMove(MoveRight(1)),
+	SimpleMove(MoveForwardLeft(1)),
+	SimpleMove(MoveForwardRight(1)),
+	SimpleMove(MoveBackwardLeft(1)),
+	SimpleMove(MoveBackwardRight(1)),
 }
 
 // NewKing creates a new King with the given position.

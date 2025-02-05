@@ -10,12 +10,10 @@ type Pawn struct {
 }
 
 var pawnMoves = Moves{
-	SimpleMove(ConditionTrue, MoveForward(1)),
-	SimpleMove(CanMoveTwoSquares, MoveForward(2)),
-}
-
-func CanMoveTwoSquares(position Position, color Color, _ *Board) bool {
-	return (color == White && position.Rank == 6) || (color == Black && position.Rank == 1)
+	SimpleMove(MoveForward(1)),
+	SimpleConditionalMove(func(position Position, color Color, board *Board) bool {
+		return (color == White && position.Rank == 6) || (color == Black && position.Rank == 1)
+	}, MoveForward(2)),
 }
 
 // NewPawn creates a new Pawn with the given position and color.

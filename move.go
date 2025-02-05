@@ -70,21 +70,26 @@ func ConditionTrue(_ Position, _ Color, _ *Board) bool {
 }
 
 type Move struct {
-	condition Condition
-	delta     MoveDelta
+	isUnconditional bool
+	condition       Condition
+	delta           MoveDelta
 }
 
-func SimpleMove(condition Condition, delta MoveDelta) Move {
+func SimpleMove(delta MoveDelta) Move {
+	return Move{isUnconditional: true, delta: delta}
+}
+
+func SimpleConditionalMove(condition Condition, delta MoveDelta) Move {
 	return Move{condition: condition, delta: delta}
 }
 
-func CompoundMove(condition Condition, delta ...MoveDelta) Move {
+func CompoundMove(delta ...MoveDelta) Move {
 	var mergedDelta MoveDelta
 	for _, d := range delta {
 		mergedDelta.rankDelta += d.rankDelta
 		mergedDelta.fileDelta += d.fileDelta
 	}
-	return Move{condition: condition, delta: mergedDelta}
+	return Move{isUnconditional: true, delta: mergedDelta}
 }
 
 // Moves is a slice of Move.
@@ -95,20 +100,18 @@ func (m Moves) PossiblePositions(piece Piece, board *Board) []Position {
 	// Create a slice of Position to store the possible positions.
 	var positions = make([]Position, piece.MaxPossibleMoves())
 	var positionIndex int
+	// Get the position and color of the piece.
+	position, color := piece.Position(), piece.Color()
 	// Loop through the moves for the piece.
 	for _, move := range m {
-		// Get the position and color of the piece.
-		position, color := piece.Position(), piece.Color()
 		// Check if the condition for the MoveDelta is satisfied.
-		if !move.condition(position, color, board) {
-			continue
+		if move.isUnconditional || move.condition(position, color, board) {
+			newPosition := move.delta.ApplyTo(position, color)
+			if newPosition != position && board.PositionIsEmpty(newPosition) {
+				positions[positionIndex] = newPosition
+				positionIndex++
+			}
 		}
-		newPosition := move.delta.ApplyTo(position, color)
-		if newPosition != position && newPosition.isValid() && board.PositionIsEmpty(newPosition) {
-			positions[positionIndex] = newPosition
-			positionIndex++
-		}
-
 	}
 	// Return the slice of possible positions.
 	return positions[:positionIndex]
