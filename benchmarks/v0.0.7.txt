@@ -1,0 +1,78 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/asahasrabuddhe/chess
+cpu: Apple M1 Max
+BenchmarkBishop_Moves-12        11540953                91.17 ns/op          208 B/op          1 allocs/op
+BenchmarkBishop_Moves-12        13241013                91.24 ns/op          208 B/op          1 allocs/op
+BenchmarkBishop_Moves-12        12892683                90.88 ns/op          208 B/op          1 allocs/op
+BenchmarkBishop_Moves-12        13258020                90.37 ns/op          208 B/op          1 allocs/op
+BenchmarkBishop_Moves-12        12818851                94.63 ns/op          208 B/op          1 allocs/op
+BenchmarkBishop_Moves-12        12779104                89.80 ns/op          208 B/op          1 allocs/op
+BenchmarkBishop_Moves-12        13103356                89.95 ns/op          208 B/op          1 allocs/op
+BenchmarkBishop_Moves-12        13262678                90.60 ns/op          208 B/op          1 allocs/op
+BenchmarkBishop_Moves-12        13176092                90.29 ns/op          208 B/op          1 allocs/op
+BenchmarkBishop_Moves-12        13151422                91.04 ns/op          208 B/op          1 allocs/op
+BenchmarkKing_Moves-12          29602159                40.14 ns/op          128 B/op          1 allocs/op
+BenchmarkKing_Moves-12          28608295                40.38 ns/op          128 B/op          1 allocs/op
+BenchmarkKing_Moves-12          28566157                41.19 ns/op          128 B/op          1 allocs/op
+BenchmarkKing_Moves-12          26083105                40.66 ns/op          128 B/op          1 allocs/op
+BenchmarkKing_Moves-12          28700179                40.47 ns/op          128 B/op          1 allocs/op
+BenchmarkKing_Moves-12          28222206                40.17 ns/op          128 B/op          1 allocs/op
+BenchmarkKing_Moves-12          29752404                40.10 ns/op          128 B/op          1 allocs/op
+BenchmarkKing_Moves-12          27282621                40.83 ns/op          128 B/op          1 allocs/op
+BenchmarkKing_Moves-12          28566072                41.06 ns/op          128 B/op          1 allocs/op
+BenchmarkKing_Moves-12          27632578                40.57 ns/op          128 B/op          1 allocs/op
+BenchmarkKnight_Moves-12        29533281                38.93 ns/op          128 B/op          1 allocs/op
+BenchmarkKnight_Moves-12        30183616                39.13 ns/op          128 B/op          1 allocs/op
+BenchmarkKnight_Moves-12        30154794                39.51 ns/op          128 B/op          1 allocs/op
+BenchmarkKnight_Moves-12        30281013                39.96 ns/op          128 B/op          1 allocs/op
+BenchmarkKnight_Moves-12        28907071                38.96 ns/op          128 B/op          1 allocs/op
+BenchmarkKnight_Moves-12        29816997                39.37 ns/op          128 B/op          1 allocs/op
+BenchmarkKnight_Moves-12        30448062                39.49 ns/op          128 B/op          1 allocs/op
+BenchmarkKnight_Moves-12        30304177                39.22 ns/op          128 B/op          1 allocs/op
+BenchmarkKnight_Moves-12        29616679                39.44 ns/op          128 B/op          1 allocs/op
+BenchmarkKnight_Moves-12        29282100                39.59 ns/op          128 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          45994486                24.80 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          47680146                24.58 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          46656675                24.61 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          47228134                24.63 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          46441425                24.79 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          47712294                24.42 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          47913037                24.66 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          47076745                24.65 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          47778943                26.46 ns/op           64 B/op          1 allocs/op
+BenchmarkPawn_Moves-12          47921010                24.50 ns/op           64 B/op          1 allocs/op
+BenchmarkPosition_String-12     131132635                9.189 ns/op           2 B/op          1 allocs/op
+BenchmarkPosition_String-12     130526582                9.123 ns/op           2 B/op          1 allocs/op
+BenchmarkPosition_String-12     131412831                9.112 ns/op           2 B/op          1 allocs/op
+BenchmarkPosition_String-12     131450385                9.119 ns/op           2 B/op          1 allocs/op
+BenchmarkPosition_String-12     131370997                9.157 ns/op           2 B/op          1 allocs/op
+BenchmarkPosition_String-12     128323700                9.165 ns/op           2 B/op          1 allocs/op
+BenchmarkPosition_String-12     128043898                9.422 ns/op           2 B/op          1 allocs/op
+BenchmarkPosition_String-12     130897005                9.237 ns/op           2 B/op          1 allocs/op
+BenchmarkPosition_String-12     131520145                9.104 ns/op           2 B/op          1 allocs/op
+BenchmarkPosition_String-12     131410510                9.110 ns/op           2 B/op          1 allocs/op
+BenchmarkQueen_Moves-12          7711374               155.9 ns/op           448 B/op          1 allocs/op
+BenchmarkQueen_Moves-12          7636158               157.4 ns/op           448 B/op          1 allocs/op
+BenchmarkQueen_Moves-12          7611066               155.4 ns/op           448 B/op          1 allocs/op
+BenchmarkQueen_Moves-12          7714509               157.3 ns/op           448 B/op          1 allocs/op
+BenchmarkQueen_Moves-12          7589187               156.7 ns/op           448 B/op          1 allocs/op
+BenchmarkQueen_Moves-12          7584932               155.2 ns/op           448 B/op          1 allocs/op
+BenchmarkQueen_Moves-12          7718966               155.5 ns/op           448 B/op          1 allocs/op
+BenchmarkQueen_Moves-12          7647218               155.9 ns/op           448 B/op          1 allocs/op
+BenchmarkQueen_Moves-12          7696122               156.7 ns/op           448 B/op          1 allocs/op
+BenchmarkQueen_Moves-12          7613817               157.1 ns/op           448 B/op          1 allocs/op
+BenchmarkRook_Moves-12          12421888                95.56 ns/op          224 B/op          1 allocs/op
+BenchmarkRook_Moves-12          12458271                95.71 ns/op          224 B/op          1 allocs/op
+BenchmarkRook_Moves-12          12482376                98.76 ns/op          224 B/op          1 allocs/op
+BenchmarkRook_Moves-12          12289755                95.67 ns/op          224 B/op          1 allocs/op
+BenchmarkRook_Moves-12          12574930                95.78 ns/op          224 B/op          1 allocs/op
+BenchmarkRook_Moves-12          12133804                95.43 ns/op          224 B/op          1 allocs/op
+BenchmarkRook_Moves-12          12544957                99.34 ns/op          224 B/op          1 allocs/op
+BenchmarkRook_Moves-12          12296168                95.58 ns/op          224 B/op          1 allocs/op
+BenchmarkRook_Moves-12          12322162                96.55 ns/op          224 B/op          1 allocs/op
+BenchmarkRook_Moves-12          12479233                95.53 ns/op          224 B/op          1 allocs/op
+PASS
+ok      github.com/asahasrabuddhe/chess 97.094s
+
+
